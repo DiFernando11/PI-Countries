@@ -1,0 +1,12 @@
+.container_navigation {
+  display: flex;
+  justify-content: space-between;
+}
+.container_navigation ul {
+  display: flex;
+  list-style: none;
+}
+.container_navigation li {
+  margin: 0 6px;
+  cursor: pointer;
+}

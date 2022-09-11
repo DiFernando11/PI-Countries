@@ -1,0 +1,23 @@
+body {
+  /* image de fondo */
+}
+.btn {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.containerLandingPage {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../../assets//Mapamundi_tipografico_paises.svg");
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+}

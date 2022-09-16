@@ -18,10 +18,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   const { name, difficult, duration, season, country } = req.body;
   try {
-    createActivity(name, difficult, duration, season, country);
-    res.json({
-      msg: `${name}  has been added as a tourist activity in  ${country}`,
-    });
+    res.json(await createActivity(name, difficult, duration, season, country));
   } catch (error) {
     res.status(400).send(error);
   }

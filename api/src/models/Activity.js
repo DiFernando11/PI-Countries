@@ -23,9 +23,9 @@ module.exports = (sequelize) => {
           "Otoño",
           "Invierno",
           "Primavera",
-          "Todo el año"
+          "All year round"
         ),
-        defaultValue: "Todo el año",
+        defaultValue: "All year round",
       },
     },
     {

@@ -1,0 +1,15 @@
+.form_create_activity label,
+input,
+select {
+  display: block;
+}
+.form_create_activity label {
+  margin: 24px;
+}
+.form_create_activity p.danger{
+    color: red;
+    font-size: 10px;
+}
+.form_create_activity input.danger{
+    border: 2px solid red;
+}

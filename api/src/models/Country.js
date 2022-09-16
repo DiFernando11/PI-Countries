@@ -13,6 +13,9 @@ module.exports = (sequelize) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        set(value) {
+          this.setDataValue("name", value.toUpperCase());
+        },
       },
       capital: {
         type: DataTypes.ARRAY(DataTypes.STRING),

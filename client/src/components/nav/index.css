@@ -1,6 +1,13 @@
+header {
+  width: 100%;
+  height: 70px;
+  background-color: aqua;
+}
 .container_navigation {
   display: flex;
   justify-content: space-between;
+  width: 100%;
+  height: 100%;
 }
 .container_navigation ul {
   display: flex;

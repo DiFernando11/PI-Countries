@@ -5,12 +5,40 @@ const router = express.Router();
 const {
   listCountries,
   findCountryByID,
+  filterByContinents,
+  sortByAlphabeticalOrder,
+  sortByAlphabeticalOrderByContinent,
 } = require("../Controllers/controllers");
 
-router.get("/", async (req, res) => {
-  const { name, limit } = req.query;
+router.get("/continent", async (req, res) => {
+  const { continent, page = 0 } = req.query;
   try {
-    res.json(await listCountries(name, limit));
+    res.json(await filterByContinents(continent, page));
+  } catch (error) {
+    res.send(error);
+  }
+});
+router.get("/order/continent", async (req, res) => {
+  const { continent, order, page } = req.query;
+  try {
+    res.json(await sortByAlphabeticalOrderByContinent(continent, order, page));
+  } catch (error) {
+    res.send(error);
+  }
+});
+router.get("/order", async (req, res) => {
+  const { order = "ASC", page } = req.query;
+  try {
+    res.json(await sortByAlphabeticalOrder(order, page));
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+router.get("/", async (req, res) => {
+  const { name, page } = req.query;
+  try {
+    res.json(await listCountries(name, page));
   } catch (error) {
     res.status(404).send(error);
   }
@@ -18,7 +46,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    res.json(findCountryByID(id));
+    res.json(await findCountryByID(id));
   } catch (error) {
     res.status(404).send(error);
   }

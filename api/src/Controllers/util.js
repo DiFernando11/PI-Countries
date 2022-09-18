@@ -16,6 +16,8 @@ const informationApiToDB = async () => {
         population: info.population,
         flag: info.flags[0],
         continent: info.region,
+        translation: info.translations.spa.common || "No existe traduccion",
+        googleMaps: info.maps.googleMaps || "No existe ubicacion exacta",
       };
 
       try {

@@ -1,0 +1,10 @@
+.container_form_filter label {
+  display: flex;
+}
+.desactivated_button_search_activity {
+  cursor: not-allowed;
+  border: 2px outset ButtonFace;
+  color: GrayText;
+  background: #ddd;
+  pointer-events: none;
+}

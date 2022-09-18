@@ -16,9 +16,9 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { name, difficult, duration, season, country } = req.body;
+  const { name, difficult, duration, season, country, typeActivity } = req.body;
   try {
-    res.json(await createActivity(name, difficult, duration, season, country));
+    res.json(await createActivity(name, difficult, duration, season, country, typeActivity));
   } catch (error) {
     res.status(400).send(error);
   }

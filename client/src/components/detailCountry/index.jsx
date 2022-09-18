@@ -6,12 +6,15 @@ import ActivityCard from "../activityCard";
 import "./index.css";
 
 function DetailCountry() {
-  let dispatch = useDispatch();
+  //states globales
   let detail = useSelector((state) => state.countryDetail);
+  // hooks
+  let dispatch = useDispatch();
   const { id } = useParams();
+  // traigo la informacion de los detalles de cada pais
   useEffect(() => {
     dispatch(getCountryDetail(id));
-  }, []);
+  }, [dispatch, id]);
 
   return (
     <main>
@@ -26,7 +29,7 @@ function DetailCountry() {
               <li>{detail.capital}</li>
               <li>{detail.subregion}</li>
               <li>{detail.area}</li>
-              <li>{detail.population}</li>
+              <li>Population: {detail.population}</li>
               <li>{detail.continent}</li>
             </ul>
           )}
@@ -42,6 +45,7 @@ function DetailCountry() {
                   difficult={activity.difficult}
                   duration={activity.duration}
                   season={activity.season}
+                  typeActivity={activity.typeActivity}
                 />
               ))
             : null}

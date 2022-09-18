@@ -6,10 +6,20 @@ select {
 .form_create_activity label {
   margin: 24px;
 }
-.form_create_activity p.danger{
-    color: red;
-    font-size: 10px;
+.form_create_activity p.danger {
+  color: red;
+  font-size: 10px;
 }
-.form_create_activity input.danger{
-    border: 2px solid red;
+.form_create_activity input.danger {
+  border: 2px solid red;
+}
+.form_create_activity .container_selected_countries {
+  display: flex;
+}
+.form_create_activity .descativated_button_createActivity {
+  cursor: not-allowed;
+  border: 2px outset ButtonFace;
+  color: GrayText;
+  background: #ddd;
+  pointer-events: none;
 }

@@ -27,6 +27,17 @@ module.exports = (sequelize) => {
         ),
         defaultValue: "All year round",
       },
+      typeActivity: {
+        type: DataTypes.ENUM(
+          "Deportiva",
+          "Cultural",
+          "Gastronomica",
+          "Sol y Playa",
+          "Naturaleza",
+          "Otros"
+        ),
+        defaultValue: "Otros",
+      },
     },
     {
       timestamps: false,

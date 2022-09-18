@@ -10,35 +10,35 @@ const {
   sortByAlphabeticalOrderByContinent,
 } = require("../Controllers/controllers");
 
-router.get("/continent", async (req, res) => {
-  const { continent, page = 0 } = req.query;
-  try {
-    res.json(await filterByContinents(continent, page));
-  } catch (error) {
-    res.send(error);
-  }
-});
-router.get("/order/continent", async (req, res) => {
-  const { continent, order, page } = req.query;
-  try {
-    res.json(await sortByAlphabeticalOrderByContinent(continent, order, page));
-  } catch (error) {
-    res.send(error);
-  }
-});
-router.get("/order", async (req, res) => {
-  const { order = "ASC", page } = req.query;
-  try {
-    res.json(await sortByAlphabeticalOrder(order, page));
-  } catch (error) {
-    res.send(error);
-  }
-});
+// router.get("/continent", async (req, res) => {
+//   const { continent, page = 0 } = req.query;
+//   try {
+//     res.json(await filterByContinents(continent, page));
+//   } catch (error) {
+//     res.send(error);
+//   }
+// });
+// router.get("/order/continent", async (req, res) => {
+//   const { continent, order, page } = req.query;
+//   try {
+//     res.json(await sortByAlphabeticalOrderByContinent(continent, order, page));
+//   } catch (error) {
+//     res.send(error);
+//   }
+// });
+// router.get("/order", async (req, res) => {
+//   const { order = "ASC", page } = req.query;
+//   try {
+//     res.json(await sortByAlphabeticalOrder(order, page));
+//   } catch (error) {
+//     res.send(error);
+//   }
+// });
 
 router.get("/", async (req, res) => {
-  const { name, page } = req.query;
+  const { name } = req.query;
   try {
-    res.json(await listCountries(name, page));
+    res.json(await listCountries(name));
   } catch (error) {
     res.status(404).send(error);
   }

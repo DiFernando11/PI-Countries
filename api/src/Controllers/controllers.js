@@ -3,16 +3,22 @@ const { Country, Activity } = require("../db");
 
 module.exports = {
   ///server route countries
-  listCountries: async (name, page) => {
+  listCountries: async (name) => {
     if (name) {
       const getCountriesByName = await Country.findAll({
-        attributes: ["name", "continent", "flag"],
+        attributes: [
+          "name",
+          "continent",
+          "flag",
+          "population",
+          "translation",
+          "googleMaps",
+        ],
         where: {
           name: {
             [Op.iLike]: `%${name}%`,
           },
         },
-
         include: Activity,
       });
 
@@ -20,19 +26,21 @@ module.exports = {
         throw `No existe un pais con el nombre de ${name}`;
       return getCountriesByName;
     }
-    if (page) {
-      let options = {
-        limit: 10,
-        offset: Number(page) * 10,
-      };
-      const { rows } = await Country.findAndCountAll(options);
-      return { register: `${page * 10} - ${page * 10 + 10}`, rows };
-    }
+
     const getAllCountries = await Country.findAll({
-      attributes: ["id", "name", "continent", "flag"],
+      attributes: [
+        "id",
+        "name",
+        "continent",
+        "flag",
+        "population",
+        "translation",
+        "googleMaps",
+      ],
       include: {
         model: Activity,
       },
+      // limit: 40,
     });
     return getAllCountries;
   },
@@ -47,14 +55,6 @@ module.exports = {
   },
   ///// filters
 
-  findCountryByID: async (idCountry) => {
-    const id = idCountry.toUpperCase();
-    const searchCountryByID = await Country.findByPk(id, {
-      include: Activity,
-    });
-    if (!searchCountryByID) throw `${id} Doesnt Exist`;
-    return searchCountryByID;
-  },
   ///server route activities
   listActivities: async () => {
     const getAllActivities = await Activity.findAll({
@@ -64,8 +64,22 @@ module.exports = {
     });
     return getAllActivities;
   },
-  createActivity: async (name, difficult, duration, season, country) => {
-    if (!name || !difficult || !duration || !season || !country)
+  createActivity: async (
+    name,
+    difficult,
+    duration,
+    season,
+    country,
+    typeActivity
+  ) => {
+    if (
+      !name ||
+      !difficult ||
+      !duration ||
+      !season ||
+      !country ||
+      !typeActivity
+    )
       throw `Not all parameters have been sent`;
 
     const nameActivity = name.toLowerCase();
@@ -76,17 +90,19 @@ module.exports = {
         difficult,
         duration,
         season,
+        typeActivity,
       },
     });
 
     let newActivity = findActivity;
-    //creo la actividad no existia una igual
+    //creo la actividad si no existia una igual
     if (!findActivity) {
       newActivity = await Activity.create({
         name: nameActivity,
         difficult,
         duration,
         season,
+        typeActivity,
       });
     }
     // contenedores de los paises creados y no creados
@@ -98,7 +114,10 @@ module.exports = {
       //aqui busco el pais
       const activityCountry = await Country.findOne({
         where: {
-          name: country[index].toUpperCase(),
+          [Op.or]: [
+            { name: country[index].toUpperCase() },
+            { translation: country[index].toUpperCase() },
+          ],
         },
       });
       // si el pais existe lo asigno al contenedor de paises correctos
@@ -119,119 +138,4 @@ module.exports = {
     return mesageSuccesfull;
   },
   /// mover a otro lado
-  filterByContinents: async (continent, page) => {
-    continent =
-      continent.charAt(0).toUpperCase() + continent.slice(1).toLowerCase();
-
-    if (page) {
-      const { count } = await Country.findAndCountAll({
-        where: {
-          continent,
-        },
-      });
-      const { rows } = await Country.findAndCountAll({
-        where: {
-          continent,
-        },
-
-        offset: Number(page) * 10,
-        limit: 10,
-        include: Activity,
-      });
-      if (!rows.length) throw `the selected continent does not exist`;
-      return { count, register: `${page * 10} - ${page * 10 + 10}`, rows };
-    }
-
-    const getCountriesByName = await Country.findAll({
-      where: {
-        continent,
-      },
-
-      include: Activity,
-    });
-    if (!getCountriesByName.length)
-      throw `the selected continent does not exist`;
-    return getCountriesByName;
-  },
-  // ordenar ascendete a descendete
-  sortByAlphabeticalOrder: async (order, page) => {
-    if (order === "ALL") {
-      const { rows } = await Country.findAndCountAll({
-        attributes: ["id", "name", "continent", "flag"],
-        offset: Number(page) * 10,
-        limit: 10,
-        include: Activity,
-      });
-      return { register: `${page * 10} - ${page * 10 + 10}`, rows };
-    }
-
-    if (page) {
-      const { rows } = await Country.findAndCountAll({
-        order: [["name", order]],
-        attributes: ["id", "name", "continent", "flag"],
-        offset: Number(page) * 10,
-        limit: 10,
-        include: Activity,
-      });
-      return { register: `${page * 10} - ${page * 10 + 10}`, rows };
-    }
-
-    const getAllCountries = await Country.findAll({
-      order: [["name", order]],
-      attributes: ["id", "name", "continent", "flag"],
-      include: Activity,
-    });
-    return getAllCountries;
-  },
-  sortByAlphabeticalOrderByContinent: async (continent, order, page) => {
-    continent =
-      continent.charAt(0).toUpperCase() + continent.slice(1).toLowerCase();
-    if (order === "ALL") {
-      const { count } = await Country.findAndCountAll({
-        where: {
-          continent,
-        },
-      });
-      const { rows } = await Country.findAndCountAll({
-        where: {
-          continent,
-        },
-        offset: Number(page) * 10,
-        limit: 10,
-        include: Activity,
-      });
-      return { count, register: `${page * 10} - ${page * 10 + 10}`, rows };
-    }
-    if (page) {
-      const { count } = await Country.findAndCountAll({
-        where: {
-          continent,
-        },
-      });
-      const { rows } = await Country.findAndCountAll({
-        order: [["name", order]],
-        where: {
-          continent,
-        },
-
-        offset: Number(page) * 10,
-        limit: 10,
-        include: Activity,
-      });
-      if (!rows.length) throw `the selected continent does not exist`;
-      return { count, register: `${page * 10} - ${page * 10 + 10}`, rows };
-    }
-
-    const getCountriesByName = await Country.findAll({
-      order: [["name", order]],
-      where: {
-        continent,
-      },
-
-      include: Activity,
-    });
-    if (!getCountriesByName.length)
-      throw `the selected continent does not exist`;
-    return getCountriesByName;
-  },
 };

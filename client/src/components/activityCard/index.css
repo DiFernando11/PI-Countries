@@ -1,0 +1,12 @@
+.delete_card_Activiy {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.container_activity {
+  border: 1px solid black;
+  position: relative;
+}
+.container_activity li {
+  list-style: none;
+}

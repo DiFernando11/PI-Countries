@@ -1,10 +1,137 @@
+/* .container_All{
+  margin-top: 10px;
+} */
 .container_form_filter label {
   display: flex;
+  justify-content: space-between;
+  /* margin-right: 24px; */
 }
-.desactivated_button_search_activity {
-  cursor: not-allowed;
-  border: 2px outset ButtonFace;
-  color: GrayText;
-  background: #ddd;
-  pointer-events: none;
+
+.container_input_search_activity {
+  position: absolute;
+  left: 40%;
+  right: 0;
+  transform: translate(-47%, -99%);
+  padding: 10px;
+  padding-top: 5px;
+}
+.container_input_search_activity input {
+  outline: none;
+  box-sizing: border-box;
+  height: 24px;
+  width: 0;
+  padding: 0 15px;
+  padding-left: 15px;
+  color: #000;
+  border-radius: 50px;
+  font-size: 14px;
+  border: 1px solid #d50000;
+  transition: all 0.7s ease;
+  margin-bottom: 30px;
+}
+.activated_button_search_activity {
+  position: absolute;
+  right: 10;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  background: #d50000;
+  line-height: 32px;
+  border-radius: 50%;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.activated_button_search_activity i {
+  font-size: 16px;
+  color: white;
+  line-height: 28px;
+  transition: all 0.7s ease;
+}
+
+.container_input_search_activity:hover input {
+  width: 180px;
+  margin-left: 20px;
+}
+.container_input_search_activity:hover i {
+  transform: rotate(-360deg);
+}
+.activated_button_search_activity:hover {
+  background: #cc0000;
+}
+
+/* form Filter */
+.container_form_filter input[type="radio"] {
+  margin: 2px;
+  margin-right: 8px;
+  margin-left: 50px;
+  margin-bottom: 4px;
+  width: 50px;
+  height: 18px;
+  outline: none;
+  cursor: pointer;
+  background: #eadade;
+  -webkit-appearance: none;
+  border-radius: 20px;
+  box-shadow: -5px -5px 20px rgba(255, 255, 255, 0.1),
+    5px 5px 10px rgba(0, 0, 0, 1), inset -2px -2px 5px rgba(255, 255, 255, 0.1),
+    inset 2px 2px 5px rgba(0, 0, 0, 0.5), 0 0 0 2px #1f1f1f;
+  transition: 0.5s;
+}
+
+.container_form_filter input[type="radio"]:checked {
+  background: rgb(235, 174, 182);
+}
+
+/* boton superior desactivado */
+.container_form_filter input[type="radio"]::before {
+  content: "";
+  position: absolute;
+  top: 20;
+  right: 20;
+  left: 165px;
+  width: 35px;
+  height: 18px;
+  background: linear-gradient(to top, rgb(235, 174, 182), rgb(224, 220, 220));
+  border-radius: 20px;
+  box-shadow: 0 0 0 1px #232323;
+  transition: 0.5s;
+  transform: scale(0.98, 0.96);
+}
+/* boton superior activado */
+.container_form_filter input[type="radio"]:checked::before {
+  left: 186px;
+  background: rgb(212, 37, 37);
+}
+/* botoncito peque;o */
+.container_form_filter input[type="radio"]::after {
+  content: "";
+  position: absolute;
+  left: 174px;
+  margin-top: 7px;
+  width: 4px;
+  height: 4px;
+  background: #555;
+  border-radius: 50%;
+  transition: 0.5s;
+}
+/* botoncito peque;o  activado*/
+.container_form_filter input[type="radio"]:checked::after {
+  left: 209px;
+  background-color: #08ffa0;
+  box-shadow: 0 0 5px #dc143c, 0 0 15px #dc143c, 0 0 30px #dc143c;
+}
+
+/* fields */
+.container_form_filter fieldset {
+  padding-left: 6px;
+}
+
+.label_default {
+  margin-top: 2px;
+  margin-left: 8px;
+}
+.container_All {
+  margin-left: 8px;
 }

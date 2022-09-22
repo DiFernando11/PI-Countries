@@ -1,3 +1,40 @@
-.container_button_page button {
+.container_button_page .button_page {
   cursor: pointer;
+  width: 40px;
+  height: 40px;
+  margin: 0 2px;
+  border-radius: 50%;
+  background: #f9c4d2;
+  border-bottom: 5px solid #050506;
+  box-shadow: 6px 6px 6px #999;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  display: block;
+  font-family: "Raleway", Arial, Helvetica;
+
+  text-align: center;
+}
+.container_button_page .button_page:hover {
+  background: #e0d8d8;
+}
+
+.activie_page {
+  width: 45px;
+  height: 45px;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: bold;
+  margin: 0 2px;
+  border-radius: 50%;
+  background: #a98c71;
+  border-bottom: 5px solid #5e482e;
+  box-shadow: 6px 6px 6px  #999;
+  font-family: "Raleway", Arial, Helvetica;
+  transition: all 0.2s ease 0s;
+}
+
+.container_button_page {
+  display: flex;
+  justify-content: center;
 }

@@ -7,6 +7,7 @@ import "./index.css";
 function Pagination() {
   let dispatch = useDispatch();
   let countries = useSelector((state) => state.countries);
+  let statePages = useSelector((state) => state.statePage);
   let totalPosts = countries.length;
   let pages = [];
   for (let index = 1; index <= Math.ceil(totalPosts / 9); index++) {
@@ -16,7 +17,11 @@ function Pagination() {
     <div className="container_button_page">
       {pages &&
         pages.map((page, index) => (
-          <button key={index} onClick={() => dispatch(statePage(page))}>
+          <button
+            key={index}
+            onClick={() => dispatch(statePage(page))}
+            className={page === statePages ? "activie_page" : "button_page"}
+          >
             {page}
           </button>
         ))}

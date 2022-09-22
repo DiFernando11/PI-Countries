@@ -56,6 +56,7 @@ module.exports = {
   ///// filters
 
   ///server route activities
+  /// mover a otro lado
   listActivities: async () => {
     const getAllActivities = await Activity.findAll({
       include: {
@@ -137,5 +138,66 @@ module.exports = {
 
     return mesageSuccesfull;
   },
-  /// mover a otro lado
+  deleteActivity: async (id, countryId) => {
+    if (!countryId) throw "The country id has not been sent";
+
+    const activityToDelete = await Activity.findOne({
+      where: {
+        id,
+      },
+      include: Country,
+    });
+    if (!activityToDelete) throw "Activity not existed";
+
+    let countryExisted = activityToDelete.countries.some(
+      (country) => country.id.toLowerCase() === countryId.toLowerCase()
+    );
+    if (!countryExisted) throw "Country not existed";
+
+    const countries = [];
+    activityToDelete.countries.forEach((country) => {
+      if (country.id.toLowerCase() !== countryId.toLowerCase()) {
+        countries.push(country.id);
+      }
+    });
+    await activityToDelete.setCountries(countries);
+    activityToDelete.destroy();
+    return "Activity deleted successfully";
+  },
+  updateActivity: async (
+    id,
+    name,
+    difficult,
+    duration,
+    season,
+    typeActivity
+  ) => {
+    if (!id || !name || !difficult || !duration || !season || !typeActivity)
+      throw `Not all parameters have been sent`;
+    let updateActivity = await Activity.findOne({
+      where: {
+        id,
+      },
+    });
+    if (!updateActivity) throw "Not existe esta actividad"; //actividad actualizada
+    const currentActivity = await updateActivity.update({
+      name: name,
+      difficult: difficult,
+      duration: duration,
+      season: season,
+      typeActivity: typeActivity,
+    });
+    //validar si el usario modifico algo
+
+    //  const value = Object.keys(updateActivity).every((key) => {
+    //     return (
+    //       currentActivity.hasOwnProperty(key) &&
+    //       currentActivity[key] === updateActivity[key]
+    //     );
+    //   })
+
+    // if(value)   return "!No se ha cambiado nada habla serio";
+
+    return "Successfully modified";
+  },
 };

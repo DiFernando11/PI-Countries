@@ -10,6 +10,8 @@ import {
   SEARCH_COUNTRIES_BY_ACTIVITY,
   STATE_PAGE,
   CREATE_POST_ACTIVITY,
+  DELETE_ACTIVITY,
+  UPDATE_ACTIVITY,
 } from "../actions";
 import {
   orderCountries,
@@ -47,6 +49,16 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         responseCreateActivity: action.payload,
+      };
+    }
+    case DELETE_ACTIVITY: {
+      return {
+        ...state,
+      };
+    }
+    case UPDATE_ACTIVITY: {
+      return {
+        ...state,
       };
     }
     case SORT_BY_NAME_COUNTRIES: {

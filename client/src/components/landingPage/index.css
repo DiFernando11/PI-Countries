@@ -1,0 +1,25 @@
+.landingPages {
+  background-image: url("../../assets//pexels-pixabay-163185.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: bold;
+  }
+/*   
+   .containerLandingPage {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  } 
+   */

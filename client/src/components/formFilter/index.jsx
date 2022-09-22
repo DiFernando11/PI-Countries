@@ -96,26 +96,30 @@ function FormFilter() {
     dispatch(statePage(1));
   };
 
-  console.log(countryByActivity);
   return (
     <form className="container_form_filter">
-      <label htmlFor="">
-        Busqueda
+      <label
+        className="container_input_search_activity"
+        htmlFor="searchActivity"
+      >
         <input
+          id="searchActivity"
           type="text"
-          placeholder="Activity..."
+          placeholder="Search Activity..."
           value={countryByActivity}
           onChange={(e) => handleInputByActiviyt(e)}
         />
-        <button
-          className={countryByActivity ? "activated_button_search_activity" :"desactivated_button_search_activity"  }
+        <div
           onClick={handleSearchCountryByActivity}
+          className="activated_button_search_activity"
         >
-          Buscar
-        </button>
+          <i className="bi bi-search"></i>
+        </div>
       </label>
-      <label htmlFor="allCountries">
+      <label className="container_All" htmlFor="allCountries">
+        Todos
         <input
+          className="inputRadio"
           id="allCountries"
           type="radio"
           name="All"
@@ -123,12 +127,13 @@ function FormFilter() {
           checked={stateCountry === "All" ? true : false}
           onChange={(e) => handlerGetCountries(e)}
         />
-        Todos
       </label>
       <fieldset>
         <legend>Continent</legend>
         <label htmlFor="continentAmerica">
+          America
           <input
+            className="inputRadio"
             id="continentAmerica"
             type="radio"
             name="continent"
@@ -136,10 +141,11 @@ function FormFilter() {
             checked={stateCountry === "Americas" ? true : false}
             onChange={(e) => handleFilterByContinent("Americas", e)}
           />
-          America
         </label>
         <label htmlFor="continentEurope">
+          Europa
           <input
+            className="inputRadio"
             id="continentEurope"
             type="radio"
             name="continent"
@@ -147,10 +153,11 @@ function FormFilter() {
             checked={stateCountry === "Europe" ? true : false}
             onChange={(e) => handleFilterByContinent("Europe", e)}
           />
-          Europa
         </label>
         <label htmlFor="continentAsia">
+          Asia
           <input
+            className="inputRadio"
             id="continentAsia"
             type="radio"
             name="continent"
@@ -158,10 +165,11 @@ function FormFilter() {
             checked={stateCountry === "Asia" ? true : false}
             onChange={(e) => handleFilterByContinent("Asia", e)}
           />
-          Asia
         </label>
         <label htmlFor="continentAntartic">
+          Antarctic
           <input
+            className="inputRadio"
             id="continentAntartic"
             type="radio"
             name="continent"
@@ -169,10 +177,11 @@ function FormFilter() {
             checked={stateCountry === "Antarctic" ? true : false}
             onChange={(e) => handleFilterByContinent("Antarctic", e)}
           />
-          Antartic
         </label>
         <label htmlFor="continentAfrica">
+          Africa
           <input
+            className="inputRadio"
             id="continentAfrica"
             type="radio"
             name="continent"
@@ -180,10 +189,11 @@ function FormFilter() {
             checked={stateCountry === "Africa" ? true : false}
             onChange={(e) => handleFilterByContinent("Africa", e)}
           />
-          Africa
         </label>
         <label htmlFor="continentOceania">
+          Oceania
           <input
+            className="inputRadio"
             id="continentOceania"
             type="radio"
             name="continent"
@@ -191,13 +201,14 @@ function FormFilter() {
             checked={stateCountry === "Oceania" ? true : false}
             onChange={(e) => handleFilterByContinent("Oceania", e)}
           />
-          Oceania
         </label>
       </fieldset>
       <fieldset>
         <legend>Order by Activity</legend>
         <label htmlFor="deportiva">
+          Deportiva
           <input
+            className="inputRadio"
             id="deportiva"
             type="radio"
             name="activity"
@@ -205,10 +216,11 @@ function FormFilter() {
             checked={stateCountry === "Deportiva" ? true : false}
             onChange={(e) => handleFilterByActivity("Deportiva", e)}
           />
-          Deportiva
         </label>
         <label htmlFor="cultural">
+          Cultural
           <input
+            className="inputRadio"
             id="cultural"
             type="radio"
             name="activity"
@@ -216,10 +228,11 @@ function FormFilter() {
             checked={stateCountry === "Cultural" ? true : false}
             onChange={(e) => handleFilterByActivity("Cultural", e)}
           />
-          Cultural
         </label>
         <label htmlFor="gastronomica">
+          Gastronomica
           <input
+            className="inputRadio"
             id="gastronomica"
             type="radio"
             name="activity"
@@ -227,10 +240,11 @@ function FormFilter() {
             checked={stateCountry === "Gastronomica" ? true : false}
             onChange={(e) => handleFilterByActivity("Gastronomica", e)}
           />
-          Gastronomica
         </label>
         <label htmlFor="solPlaya">
+          Sol y Playa
           <input
+            className="inputRadio"
             id="solPlaya"
             type="radio"
             name="activity"
@@ -238,10 +252,11 @@ function FormFilter() {
             checked={stateCountry === "Sol y Playa" ? true : false}
             onChange={(e) => handleFilterByActivity("Sol y Playa", e)}
           />
-          Sol y Playa
         </label>
         <label htmlFor="naturaleza">
+          Naturaleza
           <input
+            className="inputRadio"
             id="naturaleza"
             type="radio"
             name="activity"
@@ -249,10 +264,11 @@ function FormFilter() {
             checked={stateCountry === "Naturaleza" ? true : false}
             onChange={(e) => handleFilterByActivity("Naturaleza", e)}
           />
-          Naturaleza
         </label>
         <label htmlFor="others">
+          Otros
           <input
+            className="inputRadio"
             id="others"
             type="radio"
             name="activity"
@@ -260,14 +276,15 @@ function FormFilter() {
             checked={stateCountry === "Otros" ? true : false}
             onChange={(e) => handleFilterByActivity("Otros", e)}
           />
-          Otros
         </label>
       </fieldset>
       {/* ) : null} */}
       <fieldset>
         <legend>Order by Name</legend>
         <label htmlFor="radioOrderAsc">
+          ASC
           <input
+            className="inputRadio"
             id="radioOrderAsc"
             type="radio"
             name="orderByName"
@@ -275,10 +292,11 @@ function FormFilter() {
             checked={stateRadio === "ASC" ? true : false}
             onChange={(e) => handleSortByName("ASC", e)}
           />
-          ASC
         </label>
         <label htmlFor="radioOrderDesc">
+          DESC
           <input
+            className="inputRadio"
             id="radioOrderDesc"
             type="radio"
             name="orderByName"
@@ -286,13 +304,14 @@ function FormFilter() {
             checked={stateRadio === "DESC" ? true : false}
             onChange={(e) => handleSortByName("DESC", e)}
           />
-          DESC
         </label>
       </fieldset>
       <fieldset>
         <legend>Order popu</legend>
         <label htmlFor="radioOrderMen">
+          Mayor
           <input
+            className="inputRadio"
             id="radioOrderMen"
             type="radio"
             name="orderByPopulation"
@@ -300,10 +319,11 @@ function FormFilter() {
             checked={stateRadio === "MAYOR" ? true : false}
             onChange={(e) => handleSortByPopulation("MAYOR", e)}
           />
-          Mayor
         </label>
-        <label htmlFor="radioOrderMay">
+        <label htmlFor="radioOrderMay" >
+          Menor
           <input
+            className="inputRadio"
             id="radioOrderMay"
             type="radio"
             name="orderByPopulation"
@@ -311,11 +331,11 @@ function FormFilter() {
             checked={stateRadio === "MENOR" ? true : false}
             onChange={(e) => handleSortByPopulation("MENOR", e)}
           />
-          Menor
         </label>
       </fieldset>
       {currentRadio === "Continent" && (
-        <label htmlFor="radioDefaultContinent">
+        <label htmlFor="radioDefaultContinent" className="label_default">
+          Default
           <input
             id="radioDefaultContinent"
             type="radio"
@@ -324,11 +344,11 @@ function FormFilter() {
             checked={stateRadio === "default" ? true : false}
             onChange={(e) => hanldeDefaultContinent(stateCountry, e)}
           />
-          default
         </label>
       )}
       {currentRadio === "Activity" && (
         <label htmlFor="radioDefaultActivity">
+          Default
           <input
             id="radioDefaultActivity"
             type="radio"
@@ -337,11 +357,11 @@ function FormFilter() {
             checked={stateRadio === "default" ? true : false}
             onChange={(e) => hanldeDefaultActivity(stateCountry, e)}
           />
-          default
         </label>
       )}
       {currentRadio === "default" && (
-        <label htmlFor="radioDefaultCountries">
+        <label htmlFor="radioDefaultCountries" className="label_default">
+          Default
           <input
             id="radioDefaultCountries"
             type="radio"
@@ -350,7 +370,6 @@ function FormFilter() {
             checked={stateRadio === "default" ? true : false}
             onChange={(e) => handlerGetCountriesDefault(e)}
           />
-          default
         </label>
       )}
     </form>

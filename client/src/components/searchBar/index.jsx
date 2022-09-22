@@ -5,6 +5,7 @@ import {
   searchCountries,
   setStateCountry,
 } from "../../redux/actions";
+import "./index.css";
 
 function SearchBar() {
   const [country, setCountries] = useState("");
@@ -24,13 +25,17 @@ function SearchBar() {
     dispatch(setStateCountry("All"));
   };
   return (
-    <form>
+    <form className="input_search_country">
+      
       <input
         type="text"
         placeholder="Country..."
         onClick={() => handleResetSearch()}
         onChange={(e) => handleSearchCountry(e)}
-      />
+        className="src"
+      >
+
+      </input >
     </form>
   );
 }

@@ -1,0 +1,20 @@
+.input_search_country {
+  margin: auto;
+}
+
+input.src {
+  padding: 8px 10px 8px 16px;
+  outline: none;
+  font-size: 18px;
+  border-radius: 15px;
+  color: #444;
+  border: 3px solid #a50559;
+  width: 400px;
+  transition: all 0.5s;
+}
+input.src:hover {
+  width: 450px;
+  background-color: #fff;
+  border-color: #8c10b3;
+  box-shadow: 0 0 5px #6dcff680;
+}

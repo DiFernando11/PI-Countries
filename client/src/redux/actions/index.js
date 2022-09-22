@@ -10,6 +10,8 @@ export const FILTER_COUNTRIES_BY_ACTIVITY = "FILTER_COUNTRIES_BY_ACTIVITY";
 export const SEARCH_COUNTRIES = "SEARCH_COUNTRIES";
 export const STATE_COUNTRY = "STATE_COUNTRY";
 export const SEARCH_COUNTRIES_BY_ACTIVITY = "SEARCH_COUNTRIES_BY_ACTIVITY";
+export const DELETE_ACTIVITY = "DELETE_ACTIVITY";
+export const UPDATE_ACTIVITY = "UPDATE_ACTIVITY";
 export const STATE_PAGE = "STATE_PAGE";
 
 // export const getAllCountries = (page) => {
@@ -112,5 +114,24 @@ export const statePage = (payload) => {
   return {
     type: STATE_PAGE,
     payload,
+  };
+};
+
+export function deleteActivity(id, countryId) {
+  return async function (dispatch) {
+    await axios.delete(`http://localhost:3001/activity/${id}`, {
+      data: { countryId },
+    });
+    return dispatch({
+      type: DELETE_ACTIVITY,
+    });
+  };
+}
+export const updateActivity = (id, payload) => {
+  return async (dispatch) => {
+    await axios.put(`http://localhost:3001/activity/${id}`, payload);
+    return dispatch({
+      type: UPDATE_ACTIVITY,
+    });
   };
 };

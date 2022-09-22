@@ -9,6 +9,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url("./assets/pexels-nataliya-vaitkevich-7235907.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
 }
 
 code {
@@ -16,5 +20,5 @@ code {
     monospace;
 }
 div {
-  color: black;
+  color: white;
 }

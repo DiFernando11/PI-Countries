@@ -12,6 +12,8 @@ import {
   CREATE_POST_ACTIVITY,
   DELETE_ACTIVITY,
   UPDATE_ACTIVITY,
+  FAVORITE_ACTIVITIES,
+  REFRESH_STATE,
 } from "../actions";
 import {
   orderCountries,
@@ -24,9 +26,11 @@ const initialState = {
   countries: [],
   countryDetail: {},
   copyCountries: [],
+  favoriteActivity: [],
   responseCreateActivity: "",
   stateCountry: "All",
   statePage: 1,
+  stateRefreshUpdate: false,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -105,6 +109,12 @@ const rootReducer = (state = initialState, action) => {
         countries: searchCountryByActivity(action.payload, state.copyCountries),
       };
     }
+    case FAVORITE_ACTIVITIES: {
+      return {
+        ...state,
+        favoriteActivity: action.payload,
+      };
+    }
 
     case STATE_COUNTRY: {
       return {
@@ -116,6 +126,12 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         statePage: action.payload,
+      };
+    }
+    case REFRESH_STATE: {
+      return {
+        ...state,
+        stateRefreshUpdate: !state.stateRefreshUpdate,
       };
     }
     default:

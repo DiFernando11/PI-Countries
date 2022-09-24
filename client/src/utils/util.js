@@ -1,3 +1,37 @@
+import imgAmerica from "../assets/america.png";
+import imgEuropa from "../assets/europa.png";
+import imgAsia from "../assets/Asia.webp";
+import imgAfrica from "../assets/africa.png";
+import imgAntartica from "../assets//antartica.png";
+import imgOceania from "../assets/oceania.png";
+import imgDefault from "../assets/oceania.png";
+export function imageContinent(detail) {
+  let continentImg = "";
+  switch (detail.continent) {
+    case "Americas":
+      continentImg = imgAmerica;
+      break;
+    case "Europe":
+      continentImg = imgEuropa;
+      break;
+    case "Africa":
+      continentImg = imgAfrica;
+      break;
+    case "Oceania":
+      continentImg = imgOceania;
+      break;
+    case "Asia":
+      continentImg = imgAsia;
+      break;
+    case "Antarctic":
+      continentImg = imgAntartica;
+      break;
+    default:
+      continentImg = imgDefault;
+  }
+  return continentImg;
+}
+
 export function validate(input) {
   let errors = {};
   if (input.name.length < 3) {
@@ -12,12 +46,11 @@ export function validate(input) {
   if (!/^([0-1]?[0-9]|[2][0-4])?$/.test(input.duration)) {
     errors.duration = "valor a ingresar maximo hasta 24 horas";
   }
-  if(!input.country.length){
-    errors.country = "Ingresa al menos un pais para crear la actividad"
+  if (!input.country.length) {
+    errors.country = "Ingresa al menos un pais para crear la actividad";
   }
   return errors;
 }
-
 
 //order filters
 export const orderCountries = (order, array) => {

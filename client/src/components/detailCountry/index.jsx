@@ -1,51 +1,48 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { getCountryDetail } from "../../redux/actions";
+import { favoriteActivities, getCountryDetail } from "../../redux/actions";
+import { imageContinent } from "../../utils/util";
 import ActivityCard from "../activityCard";
-import imgAmerica from "../../assets/america.png";
-import imgEuropa from "../../assets/europa.png";
-import imgAsia from "../../assets/Asia.webp";
-import imgAfrica from "../../assets/africa.png";
-import imgAntartica from "../../assets/antartica.png";
-import imgOceania from "../../assets/oceania.png";
-import imgDefault from "../../assets/mapamundi.jpg";
+
 import "./index.css";
 
 function DetailCountry() {
   //states globales
   let detail = useSelector((state) => state.countryDetail);
+  let favoriteActivity = useSelector((state) => state.favoriteActivity);
+  const stateRefreshUpdate = useSelector((state) => state.stateRefreshUpdate);
+  //state locales
+  const [cardFavoriteCurrent, setCardFavoriteCurrent] = useState(0);
+
+  const lengthCardsFavorities = favoriteActivity?.length;
   // hooks
   let dispatch = useDispatch();
+  const paramsId = useParams();
+  console.log(paramsId);
   const { id } = useParams();
   // traigo la informacion de los detalles de cada pais
+
   useEffect(() => {
     dispatch(getCountryDetail(id));
-  }, [dispatch, id]);
+  }, [dispatch, id, cardFavoriteCurrent, stateRefreshUpdate]);
+  console.log(detail);
 
-  let continentImg = "";
-  switch (detail.continent) {
-    case "Americas":
-      continentImg = imgAmerica;
-      break;
-    case "Europe":
-      continentImg = imgEuropa;
-      break;
-    case "Africa":
-      continentImg = imgAfrica;
-      break;
-    case "Oceania":
-      continentImg = imgOceania;
-      break;
-    case "Asia":
-      continentImg = imgAsia;
-      break;
-    case "Antarctic":
-      continentImg = imgAntartica;
-      break;
-    default:
-      continentImg = imgDefault;
-  }
+  const continentImg = imageContinent(detail);
+  const nextCardFavority = () => {
+    setCardFavoriteCurrent(
+      cardFavoriteCurrent === lengthCardsFavorities - 1
+        ? 0
+        : cardFavoriteCurrent + 1
+    );
+  };
+  const prevCardFavority = () => {
+    setCardFavoriteCurrent(
+      cardFavoriteCurrent === 0
+        ? lengthCardsFavorities - 1
+        : cardFavoriteCurrent - 1
+    );
+  };
 
   return (
     <main>
@@ -83,13 +80,40 @@ function DetailCountry() {
                 )}
               </div>
             </div>
-            {/* <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d122258.0836993223!2d-62.19260204999999!3d16.7485371!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8c13ab53e1c7369d%3A0x1e0fea838805b1a2!2sMontserrat!5e0!3m2!1ses!2sec!4v1663762486370!5m2!1ses!2sec"
-              width="400"
-              height="300"
-              allowfullscreen=""
-              loading="lazy"
-            ></iframe> */}
+
+            <div className="section_favorities_Activities">
+              <h2>Favorites Activities</h2>
+              <div className="container_favorities_Activities">
+                <button onClick={prevCardFavority}>
+                  <i class="bi bi-arrow-left-square"></i>
+                </button>
+                {favoriteActivity.length ? (
+                  favoriteActivity.map((favorite, index) => (
+                    <div>
+                      {cardFavoriteCurrent === index && (
+                        <ActivityCard
+                          key={index}
+                          id={favorite.id}
+                          name={favorite.name}
+                          difficult={favorite.difficult}
+                          duration={favorite.duration}
+                          season={favorite.season}
+                          typeActivity={favorite.typeActivity}
+                          isFavorite={favorite.isFavorite}
+                          countryId={id}
+                          isSectionActivities={false}
+                        />
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <div>Add Favorites</div>
+                )}
+                <button onClick={nextCardFavority}>
+                  <i class="bi bi-arrow-right-square"></i>
+                </button>
+              </div>
+            </div>
           </div>
           <section className="section_activities">
             <h5>Activities</h5>
@@ -110,7 +134,9 @@ function DetailCountry() {
                       duration={activity.duration}
                       season={activity.season}
                       typeActivity={activity.typeActivity}
+                      isFavorite={activity.isFavorite}
                       countryId={id}
+                      isSectionActivities={true}
                     />
                   ))
                 : null}

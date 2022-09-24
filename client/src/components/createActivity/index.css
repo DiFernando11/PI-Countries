@@ -57,7 +57,7 @@
 }
 .main_create_activity .container_form {
   display: flex;
-  border: 1px solid black;
+
   max-width: 1000px;
   margin: auto;
 }
@@ -121,8 +121,9 @@
 }
 .form input {
   background: none;
-  color: #c6c6c6;
+  color: #4a4747;
   font-size: 18px;
+  font-weight: bold;
   padding: 10px 10px 10px 5px;
   display: block;
   width: 100%;
@@ -194,7 +195,8 @@ input:valid ~ label {
   cursor: pointer;
 }
 /* Add search countries */
-.container_search_addCountries {
+.container_search_addCountries,
+.container_search_delete_country {
   height: 25px;
   padding: 2px;
   border-radius: 4px;
@@ -204,18 +206,71 @@ input:valid ~ label {
   overflow: hidden;
   margin-bottom: 2px;
 }
-.container_search_addCountries span{
+.container_search_addCountries span,
+.container_search_delete_country span {
   font-weight: 400;
   color: white;
-
 }
-.container_search_addCountries img {
+.container_search_addCountries img,
+.container_search_delete_country img {
   width: 16px;
   height: 16px;
   border-radius: 50%;
 }
-.container_search_addCountries i {
+.container_search_addCountries i,
+.container_search_delete_country i {
   color: black;
   font-size: 18px;
   cursor: pointer;
+}
+
+.container_search_delete_country {
+  width: 225px;
+  margin: auto;
+}
+.container_countries_delete {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.section_card_form_design h1 {
+  text-align: center;
+  margin-bottom: 8px;
+  padding: 8px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+.container_not_countries_add img {
+  width: 200px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  border-radius: 8px;
+}
+.container_not_countries_add p {
+  text-align: center;
+}
+.card_middle_form_design {
+  height: 50%;
+}
+.container_image_form_presentation {
+  height: 50%;
+}
+.container_image_form_presentation img {
+  width: 300px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.section_card_form_design_modified{
+  display: none;
+  box-shadow: none;
+}
+.main_create_activity_modifed{
+  width: 400px;
+  margin: auto;
+  border-radius: 16px;
+  height: auto;
 }

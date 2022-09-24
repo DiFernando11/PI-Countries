@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Country, Activity } = require("../db");
+const { Country, Activity, Favorites } = require("../db");
 
 module.exports = {
   ///server route countries
@@ -187,17 +187,56 @@ module.exports = {
       season: season,
       typeActivity: typeActivity,
     });
-    //validar si el usario modifico algo
-
-    //  const value = Object.keys(updateActivity).every((key) => {
-    //     return (
-    //       currentActivity.hasOwnProperty(key) &&
-    //       currentActivity[key] === updateActivity[key]
-    //     );
-    //   })
-
-    // if(value)   return "!No se ha cambiado nada habla serio";
-
     return "Successfully modified";
+  },
+  updateIsFavorite: async (id) => {
+    if (!id) throw "Faltan parametros";
+    let updateActivity = await Activity.findOne({
+      where: {
+        id,
+      },
+    });
+    if (!updateActivity) throw "Not existe esta actividad"; //actividad actualizada
+    const currentActivity = await updateActivity.update({
+      isFavorite: !updateActivity.isFavorite,
+    });
+    return "Successfully modified";
+  },
+  createFavorite: async (
+    id,
+    name,
+    difficult,
+    duration,
+    season,
+    typeActivity
+  ) => {
+    if (!name || !difficult || !duration || !season || !typeActivity || !id) {
+      throw "No se han enviado todos los parametros";
+    }
+
+    await Favorites.create({
+      id,
+      name,
+      difficult,
+      duration,
+      season,
+      typeActivity,
+    });
+    return "succesfull";
+  },
+  deleteFavorite: async (id) => {
+    if (!id) throw "Faltan parametros";
+    let deleteFavorites = await Favorites.findOne({
+      where: {
+        id,
+      },
+    });
+    deleteFavorites.destroy();
+    return "Se elimino correctamente";
+  },
+  listFavorite: async () => {
+    const getAllFavorities = await Favorites.findAll();
+  
+    return getAllFavorities;
   },
 };

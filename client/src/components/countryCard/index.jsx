@@ -1,38 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./index.css";
-import imgAmerica from "../../assets/america.png";
-import imgEuropa from "../../assets/europa.png";
-import imgAsia from "../../assets/Asia.webp";
-import imgAfrica from "../../assets/africa.png";
-import imgAntartica from "../../assets/antartica.png";
-import imgOceania from "../../assets/oceania.png";
-import imgDefault from "../../assets/mapamundi.jpg";
+import { imageContinent } from "../../utils/util";
 
 function CountryCard(props) {
-  let continentImg = "";
-  switch (props.continent) {
-    case "Americas":
-      continentImg = imgAmerica;
-      break;
-    case "Europe":
-      continentImg = imgEuropa;
-      break;
-    case "Africa":
-      continentImg = imgAfrica;
-      break;
-    case "Oceania":
-      continentImg = imgOceania;
-      break;
-    case "Asia":
-      continentImg = imgAsia;
-      break;
-    case "Antarctic":
-      continentImg = imgAntartica;
-      break;
-    default:
-      continentImg = imgDefault;
-  }
+  const continentImg = imageContinent(props);
 
   return (
     <div className="country_card">

@@ -8,6 +8,9 @@ import {
 import "./index.css";
 import { validate } from "../../utils/util";
 import { searchCountry } from "../../utils/util";
+import imgAddCountry from "../../assets/crying-89.webp";
+import imgFormCountry from "../../assets/PM-Form-Integrations-01-1.webp";
+import imgSuccesfullPost from "../../assets/c6842479-e0ee-49a2-9053-d00639074f7a_tick.gif";
 import Modal from "../modal";
 
 function CreateActivity({ desactivatedFormSearchCountries, id, initialState }) {
@@ -28,15 +31,16 @@ function CreateActivity({ desactivatedFormSearchCountries, id, initialState }) {
   // maneja los errores
   const [errors, setErrors] = useState({});
   //maneja los datos enviados por el usuario
+
   const [input, setInput] = useState({
     name: initialState.name,
     difficult: initialState.difficult,
     duration: initialState.duration,
     season: initialState.season,
-    typeActivity: initialState.otros,
+    typeActivity: initialState.typeActivity,
     country: [],
   });
-
+  console.log(input);
   // hago una copia de los paises sin mutar los paises originales
   const copyArrayCountries = [...copyCountries];
   //hooks
@@ -77,13 +81,15 @@ function CreateActivity({ desactivatedFormSearchCountries, id, initialState }) {
     const copyCountries = searchCountry(e.target.value, copyArrayCountries);
     setCountryBySearch(copyCountries);
   };
+
   // agregar paises al input country
   const handleAddCountry = (country) => {
-    if (!selectCountry.some((c) => c === country)) {
+    if (!selectCountry.some((c) => c.name === country.name)) {
       setSelectCountry((prevState) => [...prevState, country]);
+      const arrayCountries = selectCountry.map((country) => country.name);
       setInput({
         ...input,
-        country: [...selectCountry, country],
+        country: [...arrayCountries, country.name],
       });
       delete errors.country;
     }
@@ -105,26 +111,59 @@ function CreateActivity({ desactivatedFormSearchCountries, id, initialState }) {
 
   useEffect(() => {
     dispatch(getAllCountries());
-  }, []);
+  }, [dispatch]);
   // console.log(desactivatedFormSearchCountries)
   return (
-    <main className="main_create_activity">
-      <div className="container_form">
-        <section className="section_card_form_design">
-          Aqui va estar una imagen
-          {selectCountry.length ? (
-            selectCountry.map((country) => (
-              <div key={country} className="container_search_addCountries">
-                <span> {country}</span>
-                <i
-                  onClick={() => handleDeleteCountry(country)}
-                  class="bi bi-trash"
-                ></i>
+    <main
+      className={` main_create_activity  ${
+        !desactivatedFormSearchCountries && "main_create_activity_modifed"
+      }`}
+    >
+      <div
+        className={`${desactivatedFormSearchCountries && "container_form "}`}
+      >
+        <section
+          className={`${
+            desactivatedFormSearchCountries
+              ? "section_card_form_design"
+              : "section_card_form_design_modified"
+          }`}
+        >
+          <div className="card_middle_form_design">
+            <h1> CREATE ACTIVITY </h1>
+            <div className="container_countries_delete">
+              {selectCountry &&
+                selectCountry.map((country) => (
+                  <div
+                    key={country.id}
+                    className="container_search_delete_country"
+                  >
+                    <div>
+                      <img src={country.flag} alt={country.name} />
+                      <span> {country.name}</span>
+                    </div>
+                    <i
+                      onClick={() => handleDeleteCountry(country)}
+                      className="bi bi-trash"
+                    ></i>
+                  </div>
+                ))}
+            </div>
+
+            {!selectCountry.length && (
+              <div className="container_not_countries_add">
+                <img
+                  className="imgAddCountry"
+                  src={imgAddCountry}
+                  alt="add Countries"
+                />
+                <p>No has agregado un pais para tu actividad</p>
               </div>
-            ))
-          ) : (
-            <p>Se debe agregar al menos un pais</p>
-          )}
+            )}
+          </div>
+          <div className="container_image_form_presentation">
+            <img src={imgFormCountry} alt="" />
+          </div>
         </section>
         <section className="section_card_form">
           <form
@@ -136,35 +175,42 @@ function CreateActivity({ desactivatedFormSearchCountries, id, initialState }) {
             }
           >
             <div className="form">
-              <div className="group groupCountry">
-                <input
-                  className={errors.country && "danger"}
-                  type="text"
-                  name="country"
-                  onChange={(e) => handleSearchCountry(e)}
-                />
-                <label form="country">Country</label>
-                {errors.country && <p className="danger">{errors.country} </p>}
-                {country.length
-                  ? countryBySearch
-                      .map((country) => (
-                        <div
-                          className="container_search_addCountries"
-                          key={country.name}
-                        >
-                          <div>
-                            <img src={country.flag} alt={country.name} />
-                            <span> {country.name}</span>
+              {desactivatedFormSearchCountries ? (
+                <div className="group groupCountry">
+                  <input
+                    className={errors.country && "danger"}
+                    type="text"
+                    name="country"
+                    onChange={(e) => handleSearchCountry(e)}
+                    autoComplete="off"
+                  />
+
+                  <label form="country">Country</label>
+                  {errors.country && (
+                    <p className="danger">{errors.country} </p>
+                  )}
+                  {country.length
+                    ? countryBySearch
+                        .map((country) => (
+                          <div
+                            className="container_search_addCountries"
+                            key={country.name}
+                          >
+                            <div>
+                              <img src={country.flag} alt={country.name} />
+                              <span> {country.name}</span>
+                            </div>
+                            <i
+                              onClick={() => handleAddCountry(country)}
+                              class="bi bi-node-plus"
+                            ></i>
                           </div>
-                          <i
-                            onClick={() => handleAddCountry(country.name)}
-                            class="bi bi-node-plus"
-                          ></i>
-                        </div>
-                      ))
-                      .slice(0, 3)
-                  : null}
-              </div>
+                        ))
+                        .slice(0, 3)
+                    : null}
+                </div>
+              ) : null}
+
               <div className="group">
                 <input
                   className={errors.name && "danger"}
@@ -265,115 +311,26 @@ function CreateActivity({ desactivatedFormSearchCountries, id, initialState }) {
                   : "MODIFICAR"}
               </button>
             </div>
-
-            {/* <label form="typeActivity">
-        Type Activity
-        <select
-          name="typeActivity"
-          value={input.typeActivity}
-          onChange={handleChange}
-        >
-          <option>Deportiva</option>
-          <option>Cultural</option>
-          <option>Gastronomica</option>
-          <option>Sol y Playa</option>
-          <option>Naturaleza</option>
-          <option>Otros</option>
-        </select>
-      </label>
-      <label form="difficult">
-        Difficult:
-        {errors.difficult && (
-          <p className="danger">{errors.difficult} </p>
-        )}
-        <input
-          className={errors.difficult && "danger"}
-          type="number"
-          min="1"
-          max="5"
-          placeholder="1"
-          name="difficult"
-          value={input.difficult}
-          onChange={handleChange}
-          required
-        />
-      </label>
-
-
-      <label form="season">
-        Season:
-        <select
-          name="season"
-          value={input.season}
-          onChange={handleChange}
-        >
-          <option>Verano</option>
-          <option>Otoño</option>
-          <option>Invierno</option>
-          <option>Primavera</option>
-          <option>All year round</option>
-        </select>
-      </label>
-
-      <button
-        type="submit"
-        // onClick={() => setModalVisible(true)}
-        className={
-          desactivatedFormSearchCountries
-            ? !Object.entries(errors).length && selectCountry.length
-              ? "activated_button_createActivity"
-              : "descativated_button_createActivity"
-            : "activated_button_createActivity"
-        }
-      >
-        {desactivatedFormSearchCountries
-          ? "Create Activity"
-          : "MODIFICAR"}
-      </button> */}
           </form>
-          {modalVisible && (
-            <Modal>
-              <h1>Ventana Modal</h1>
-              <p>{responseCreateActivity}</p>
-              <button onClick={() => setModalVisible(false)}> Aceptar</button>
-            </Modal>
-          )}
         </section>
       </div>
+      {modalVisible && (
+        <Modal>
+          <div className="containerSuccesfullModal">
+            <p className="modal_text_verificated">{responseCreateActivity}</p>
+            <img src={imgSuccesfullPost} alt="succesfull Post" />
+          </div>
+
+          <button
+            className="button_accepted"
+            onClick={() => setModalVisible(false)}
+          >
+            Aceptar
+          </button>
+        </Modal>
+      )}
     </main>
   );
 }
 
 export default CreateActivity;
-{
-  /* <div
-className={
-  desactivatedFormSearchCountries
-    ? "container_selected_countries"
-    : "desactivated_form_search_country"
-}
->
-<label form="country">
-  Country
-  {errors.country && <p className="danger">{errors.country} </p>}
-  <input
-    className={errors.country && "danger"}
-    type="text"
-    name="country"
-    onChange={(e) => handleSearchCountry(e)}
-  />
-</label>
-</div>
-{country.length
-? countryBySearch
-    .map((country) => (
-      <div key={country.name}>
-        <span> {country.name}</span>
-        <span onClick={() => handleAddCountry(country.name)}>
-          +
-        </span>
-      </div>
-    ))
-    .slice(0, 3)
-: null} */
-}

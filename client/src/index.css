@@ -13,8 +13,11 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
-}
 
+}
+.gird__title{
+  font-size: 6rem;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

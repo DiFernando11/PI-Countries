@@ -17,14 +17,16 @@
 }
 
 .container_activity {
+  position: relative;
   padding: 4px;
   width: 250px;
   height: 150px;
   background: rgba(5, 4, 4, 0);
   border-radius: 8px;
   box-shadow: 0 4px 30px rgba(245, 242, 242, 0.1);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
+  backdrop-filter: blur(110px);
+  -webkit-backdrop-filter: blur(110px);
+
   border: 1px solid rgb(61, 5, 134);
 }
 .container_activity li {
@@ -64,4 +66,18 @@
 .container_activity .type_activity span {
   color: rgb(163, 111, 147);
   font-weight: bold;
+}
+.addFavorite {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 4px;
+  cursor: pointer;
+}
+
+.isFavorited {
+  color: red;
+}
+.invalidDelete {
+  display: none;
 }

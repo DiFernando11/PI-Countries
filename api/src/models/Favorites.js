@@ -1,8 +1,14 @@
 const { DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
   sequelize.define(
-    "activity",
+    "favorites",
     {
+      id: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        primaryKey: true,
+        unique: true,
+      },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -37,10 +43,6 @@ module.exports = (sequelize) => {
           "Otros"
         ),
         defaultValue: "Otros",
-      },
-      isFavorite: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
       },
     },
     {

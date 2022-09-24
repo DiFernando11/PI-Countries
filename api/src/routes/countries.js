@@ -5,9 +5,6 @@ const router = express.Router();
 const {
   listCountries,
   findCountryByID,
-  filterByContinents,
-  sortByAlphabeticalOrder,
-  sortByAlphabeticalOrderByContinent,
 } = require("../Controllers/controllers");
 
 // router.get("/continent", async (req, res) => {

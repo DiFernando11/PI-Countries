@@ -12,7 +12,12 @@ export const STATE_COUNTRY = "STATE_COUNTRY";
 export const SEARCH_COUNTRIES_BY_ACTIVITY = "SEARCH_COUNTRIES_BY_ACTIVITY";
 export const DELETE_ACTIVITY = "DELETE_ACTIVITY";
 export const UPDATE_ACTIVITY = "UPDATE_ACTIVITY";
+export const FAVORITE_ACTIVITIES = "FAVORITE_ACTIVITIES";
+export const CREATE_FAVORITE_ACTIVITIES = "CREATE_FAVORITE_ACTIVITIES";
+export const IS_FAVORITE_ACTIVITY = "IS_FAVORITE_ACTIVITY ";
+export const DELETE_FAVORITE_ACTIVITY = "DELETE_FAVORITE_ACTIVITY";
 export const STATE_PAGE = "STATE_PAGE";
+export const REFRESH_STATE = "REFRESH_STATE ";
 
 // export const getAllCountries = (page) => {
 //   return async (dispatch) => {
@@ -116,6 +121,11 @@ export const statePage = (payload) => {
     payload,
   };
 };
+export const setRefreshUpdate = () => {
+  return {
+    type: REFRESH_STATE,
+  };
+};
 
 export function deleteActivity(id, countryId) {
   return async function (dispatch) {
@@ -135,3 +145,74 @@ export const updateActivity = (id, payload) => {
     });
   };
 };
+
+export const favoriteActivities = () => {
+  return async (dispatch) => {
+    const response = await axios.get("http://localhost:3001/favorites");
+    return dispatch({
+      type: FAVORITE_ACTIVITIES,
+      payload: response.data,
+    });
+  };
+};
+export const createFavoriteActivities = (payload) => {
+  return async function (dispatch) {
+    const response = await axios.post(
+      "http://localhost:3001/favorites",
+      payload
+    );
+    return dispatch({
+      type: CREATE_FAVORITE_ACTIVITIES,
+      payload: response.data,
+    });
+  };
+};
+
+export const isFavoriteActivity = (id) => {
+  return async (dispatch) => {
+    await axios.put(`http://localhost:3001/favorites/activity/${id}`);
+    return dispatch({
+      type: IS_FAVORITE_ACTIVITY,
+    });
+  };
+};
+
+export const deleteFavority = (id) => {
+  return async function (dispatch) {
+    await axios.delete(`http://localhost:3001/favorites/activity/${id}`);
+    return dispatch({
+      type: DELETE_FAVORITE_ACTIVITY,
+    });
+  };
+};
+
+// export function deleteActivity(id, countryId) {
+//   return async function (dispatch) {
+//     await axios.delete(`http://localhost:3001/activity/${id}`, {
+//       data: { countryId },
+//     });
+//     return dispatch({
+//       type: DELETE_ACTIVITY,
+//     });
+//   };
+// }
+// export const updateActivity = (id, payload) => {
+//   return async (dispatch) => {
+//     await axios.put(`http://localhost:3001/activity/${id}`, payload);
+//     return dispatch({
+//       type: UPDATE_ACTIVITY,
+//     });
+//   };
+// };
+// export const createPostActivity = (payload) => {
+//   return async function (dispatch) {
+//     const response = await axios.post(
+//       "http://localhost:3001/activity",
+//       payload
+//     );
+//     return dispatch({
+//       type: CREATE_POST_ACTIVITY,
+//       payload: response.data,
+//     });
+//   };
+// };

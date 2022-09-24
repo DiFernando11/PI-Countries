@@ -10,12 +10,14 @@ export const FILTER_COUNTRIES_BY_ACTIVITY = "FILTER_COUNTRIES_BY_ACTIVITY";
 export const SEARCH_COUNTRIES = "SEARCH_COUNTRIES";
 export const STATE_COUNTRY = "STATE_COUNTRY";
 export const SEARCH_COUNTRIES_BY_ACTIVITY = "SEARCH_COUNTRIES_BY_ACTIVITY";
+export const GET_ALL_ACTIVITIES = "GET_ALL_ACTIVITIES";
 export const DELETE_ACTIVITY = "DELETE_ACTIVITY";
 export const UPDATE_ACTIVITY = "UPDATE_ACTIVITY";
 export const FAVORITE_ACTIVITIES = "FAVORITE_ACTIVITIES";
 export const CREATE_FAVORITE_ACTIVITIES = "CREATE_FAVORITE_ACTIVITIES";
 export const IS_FAVORITE_ACTIVITY = "IS_FAVORITE_ACTIVITY ";
 export const DELETE_FAVORITE_ACTIVITY = "DELETE_FAVORITE_ACTIVITY";
+export const UPDATE_CARD_FAVORITE = "UPDATE_CARD_FAVORITE";
 export const STATE_PAGE = "STATE_PAGE";
 export const REFRESH_STATE = "REFRESH_STATE ";
 
@@ -126,6 +128,15 @@ export const setRefreshUpdate = () => {
     type: REFRESH_STATE,
   };
 };
+export function getActivities(id) {
+  return async function (dispatch) {
+    const response = await axios.get(`http://localhost:3001/activity/${id}`);
+    return dispatch({
+      type: GET_ALL_ACTIVITIES,
+      payload: response.data,
+    });
+  };
+}
 
 export function deleteActivity(id, countryId) {
   return async function (dispatch) {
@@ -168,11 +179,14 @@ export const createFavoriteActivities = (payload) => {
   };
 };
 
-export const isFavoriteActivity = (id) => {
+export const isFavoriteActivity = (id, idCountry) => {
   return async (dispatch) => {
-    await axios.put(`http://localhost:3001/favorites/activity/${id}`);
+    const response = await axios.put(
+      `http://localhost:3001/favorites/activity/${id}?country=${idCountry}`
+    );
     return dispatch({
       type: IS_FAVORITE_ACTIVITY,
+      payload: response.data,
     });
   };
 };
@@ -185,6 +199,24 @@ export const deleteFavority = (id) => {
     });
   };
 };
+
+export const updateCardFavorite = (id, payload) => {
+  return async (dispatch) => {
+    await axios.put(`http://localhost:3001/favorites/${id}`, payload);
+    return dispatch({
+      type: UPDATE_CARD_FAVORITE,
+    });
+  };
+};
+
+// export const updateActivity = (id, payload) => {
+//   return async (dispatch) => {
+//     await axios.put(`http://localhost:3001/activity/${id}`, payload);
+//     return dispatch({
+//       type: UPDATE_ACTIVITY,
+//     });
+//   };
+// };
 
 // export function deleteActivity(id, countryId) {
 //   return async function (dispatch) {

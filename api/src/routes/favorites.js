@@ -5,6 +5,7 @@ const {
   listFavorite,
   updateIsFavorite,
   deleteFavorite,
+  updateCardFavorite,
 } = require("../Controllers/controllers");
 const { Country, Activity } = require("../db");
 const router = express.Router();
@@ -28,8 +29,27 @@ router.post("/", async (req, res) => {
 });
 router.put("/activity/:id", async (req, res) => {
   const { id } = req.params;
+  const { country } = req.query;
   try {
-    res.json(await updateIsFavorite(id));
+    res.json(await updateIsFavorite(id, country));
+  } catch (error) {
+    res.status(404).send(error);
+  }
+});
+router.put("/:id", async (req, res) => {
+  const { name, difficult, duration, season, typeActivity } = req.body;
+  const { id } = req.params;
+  try {
+    res.json(
+      await updateCardFavorite(
+        id,
+        name,
+        difficult,
+        duration,
+        season,
+        typeActivity
+      )
+    );
   } catch (error) {
     res.status(404).send(error);
   }

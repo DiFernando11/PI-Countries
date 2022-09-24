@@ -14,6 +14,9 @@ import {
   UPDATE_ACTIVITY,
   FAVORITE_ACTIVITIES,
   REFRESH_STATE,
+  GET_ALL_ACTIVITIES,
+  IS_FAVORITE_ACTIVITY,
+  UPDATE_CARD_FAVORITE,
 } from "../actions";
 import {
   orderCountries,
@@ -27,6 +30,7 @@ const initialState = {
   countryDetail: {},
   copyCountries: [],
   favoriteActivity: [],
+  activities: [],
   responseCreateActivity: "",
   stateCountry: "All",
   statePage: 1,
@@ -65,6 +69,19 @@ const rootReducer = (state = initialState, action) => {
         ...state,
       };
     }
+    case GET_ALL_ACTIVITIES: {
+      return {
+        ...state,
+        activities: action.payload,
+      };
+    }
+    case IS_FAVORITE_ACTIVITY: {
+      return {
+        ...state,
+        activities: action.payload,
+      };
+    }
+   
     case SORT_BY_NAME_COUNTRIES: {
       return {
         ...state,

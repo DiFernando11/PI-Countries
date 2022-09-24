@@ -1,5 +1,7 @@
 const express = require("express");
-const { Country, Activity, Country_activities } = require("../db");
+const path = require("path");
+const multer = require("multer");
+// const { Country, Activity, Country_activities } = require("../db");
 const { Op } = require("sequelize");
 const router = express.Router();
 const {
@@ -8,10 +10,22 @@ const {
   deleteActivity,
   updateActivity,
 } = require("../Controllers/controllers");
+// const { route } = require("express/lib/application");
+const diskstorage = multer.diskStorage({
+  destination: path.join(__dirname, "../images"),
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-monkeywit" + file.originalname);
+  },
+});
+const fileUpload = multer({
+  storage: diskstorage,
+}).single("image");
 
-router.get("/", async (req, res) => {
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+
   try {
-    res.json(await listActivities());
+    res.json(await listActivities(id));
   } catch (error) {
     res.status(404).send(error);
   }
@@ -56,4 +70,8 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+router.post("/images", fileUpload, (req, res) => {
+  console.log(req.file);
+  res.send("image saved!")
+});
 module.exports = router;

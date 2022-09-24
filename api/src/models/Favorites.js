@@ -44,6 +44,10 @@ module.exports = (sequelize) => {
         ),
         defaultValue: "Otros",
       },
+      isFavorite: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+      },
     },
     {
       timestamps: false,

@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createPostActivity,
-  getAllCountries,
-  updateActivity,
-} from "../../redux/actions";
+import { createPostActivity, getAllCountries } from "../../redux/actions";
 import "./index.css";
 import { validate } from "../../utils/util";
 import { searchCountry } from "../../utils/util";
@@ -13,7 +9,11 @@ import imgFormCountry from "../../assets/PM-Form-Integrations-01-1.webp";
 import imgSuccesfullPost from "../../assets/c6842479-e0ee-49a2-9053-d00639074f7a_tick.gif";
 import Modal from "../modal";
 
-function CreateActivity({ desactivatedFormSearchCountries, id, initialState }) {
+function CreateActivity({
+  desactivatedFormSearchCountries,
+  initialState,
+  handleUpdateActivity,
+}) {
   //estados globales
   let copyCountries = useSelector((state) => state.copyCountries);
   let responseCreateActivity = useSelector(
@@ -28,10 +28,10 @@ function CreateActivity({ desactivatedFormSearchCountries, id, initialState }) {
   const [selectCountry, setSelectCountry] = useState([]);
   // state modal
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleUpdate, setModalVisibleUpdate] = useState(false);
   // maneja los errores
   const [errors, setErrors] = useState({});
   //maneja los datos enviados por el usuario
-
   const [input, setInput] = useState({
     name: initialState.name,
     difficult: initialState.difficult,
@@ -40,11 +40,13 @@ function CreateActivity({ desactivatedFormSearchCountries, id, initialState }) {
     typeActivity: initialState.typeActivity,
     country: [],
   });
-  console.log(input);
   // hago una copia de los paises sin mutar los paises originales
   const copyArrayCountries = [...copyCountries];
   //hooks
   let dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllCountries());
+  }, [dispatch]);
   // hanlders
 
   //enviamos los datos por post a la base de datos
@@ -91,6 +93,7 @@ function CreateActivity({ desactivatedFormSearchCountries, id, initialState }) {
         ...input,
         country: [...arrayCountries, country.name],
       });
+
       delete errors.country;
     }
   };
@@ -103,16 +106,7 @@ function CreateActivity({ desactivatedFormSearchCountries, id, initialState }) {
       country: [...deleteCountry],
     });
   };
-  const handleUpdateActivity = (e) => {
-    e.preventDefault();
-    dispatch(updateActivity(id, input));
-    // window.location.reload();
-  };
 
-  useEffect(() => {
-    dispatch(getAllCountries());
-  }, [dispatch]);
-  // console.log(desactivatedFormSearchCountries)
   return (
     <main
       className={` main_create_activity  ${
@@ -161,17 +155,20 @@ function CreateActivity({ desactivatedFormSearchCountries, id, initialState }) {
               </div>
             )}
           </div>
+
           <div className="container_image_form_presentation">
+            {/* <img src={preview} alt="" /> */}
             <img src={imgFormCountry} alt="" />
           </div>
         </section>
+
         <section className="section_card_form">
           <form
             className="form_create_activity"
             onSubmit={
               desactivatedFormSearchCountries
                 ? (e) => handleSubmit(e)
-                : (e) => handleUpdateActivity(e)
+                : (e) => handleUpdateActivity(e, input)
             }
           >
             <div className="form">
@@ -202,7 +199,7 @@ function CreateActivity({ desactivatedFormSearchCountries, id, initialState }) {
                             </div>
                             <i
                               onClick={() => handleAddCountry(country)}
-                              class="bi bi-node-plus"
+                              className="bi bi-node-plus"
                             ></i>
                           </div>
                         ))
@@ -297,7 +294,11 @@ function CreateActivity({ desactivatedFormSearchCountries, id, initialState }) {
               </div>
               <button
                 type="submit"
-                // onClick={() => setModalVisible(true)}
+                onClick={
+                  !desactivatedFormSearchCountries
+                    ? () => setModalVisibleUpdate(true)
+                    : () => console.log("buenos dias")
+                }
                 className={
                   desactivatedFormSearchCountries
                     ? !Object.entries(errors).length && selectCountry.length
@@ -324,6 +325,23 @@ function CreateActivity({ desactivatedFormSearchCountries, id, initialState }) {
           <button
             className="button_accepted"
             onClick={() => setModalVisible(false)}
+          >
+            Aceptar
+          </button>
+        </Modal>
+      )}
+      {modalVisibleUpdate && (
+        <Modal>
+          <div className="containerSuccesfullModal">
+            <p className="modal_text_verificated">
+              Se ha modificado correctamente
+            </p>
+            <img src={imgSuccesfullPost} alt="succesfull Post" />
+          </div>
+
+          <button
+            className="button_accepted"
+            onClick={() => setModalVisibleUpdate(false)}
           >
             Aceptar
           </button>

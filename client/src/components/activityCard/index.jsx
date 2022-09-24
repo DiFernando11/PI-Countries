@@ -5,15 +5,15 @@ import {
   deleteActivity,
   deleteFavority,
   favoriteActivities,
-  getCountryDetail,
   isFavoriteActivity,
   setRefreshUpdate,
+  updateActivity,
+  updateCardFavorite,
 } from "../../redux/actions";
 import CreateActivity from "../createActivity";
 import Modal from "../modal";
 import giftDeleteActivity from "../../assets/deleteactivity.gif";
 import "./index.css";
-import { useParams } from "react-router-dom";
 
 function ActivityCard({
   id,
@@ -25,18 +25,20 @@ function ActivityCard({
   countryId,
   isFavorite,
   isSectionActivities,
+  setCardFavoriteCurrent,
+  lengthCardsFavorities,
 }) {
+  //ESTADOS LOCALES
   const [modalVisibleDelete, setModalVisibleDelete] = useState(false);
   const [modalVisibleUpdate, setModalVisibleUpdate] = useState(false);
-  const [refreshState, setRefreshState] = useState(true);
-
+  //ESTADOS GLOBALES
   const stateRefreshUpdate = useSelector((state) => state.stateRefreshUpdate);
-  console.log(stateRefreshUpdate, "hola");
-  // const [desactivatedFormSearchCountries, setDesactivatedFormSearchCountries] =
-  // useState(false);
-
+  //HOOKS
   let dispatch = useDispatch();
-
+  useEffect(() => {
+    dispatch(favoriteActivities());
+  }, [dispatch, stateRefreshUpdate]);
+  //HANDLERS
   const openModalUpdate = () => {
     setModalVisibleUpdate(!modalVisibleUpdate);
   };
@@ -46,10 +48,19 @@ function ActivityCard({
   };
   const handleDeleteActivity = () => {
     dispatch(deleteActivity(id, countryId));
+    dispatch(deleteFavority(id));
     setModalVisibleDelete(false);
-    window.location.reload();
+    dispatch(setRefreshUpdate());
   };
-  console.log(isFavorite);
+  const handleUpdateActivity = (e, input) => {
+    e.preventDefault();
+    dispatch(updateActivity(id, input));
+    dispatch(setRefreshUpdate());
+    dispatch(updateCardFavorite(id, input));
+    setModalVisibleUpdate(false);
+  };
+  console.log(lengthCardsFavorities);
+
   const handleAddFavorite = () => {
     if (!isFavorite) {
       dispatch(
@@ -62,22 +73,16 @@ function ActivityCard({
           typeActivity,
         })
       );
+      setCardFavoriteCurrent(
+        lengthCardsFavorities === 0 ? 0 : lengthCardsFavorities
+      );
     } else {
       dispatch(deleteFavority(id));
+      setCardFavoriteCurrent(0);
     }
- 
     dispatch(setRefreshUpdate());
-    dispatch(isFavoriteActivity(id));
+    dispatch(isFavoriteActivity(id, countryId));
   };
-  const handleDeleteFavoriteAcitivy = () => {
-    dispatch(isFavoriteActivity(id));
-    dispatch(deleteFavority(id));
-    dispatch(setRefreshUpdate());
-
-  };
-  useEffect(() => {
-    dispatch(favoriteActivities());
-  }, [dispatch, stateRefreshUpdate]);
 
   return (
     <div>
@@ -91,20 +96,12 @@ function ActivityCard({
         ></i>
         <ul>
           <li>
-            {isSectionActivities ? (
-              <i
-                onClick={handleAddFavorite}
-                className={`bi bi-heart-fill addFavorite ${
-                  isFavorite && "isFavorited"
-                }`}
-              ></i>
-            ) : (
-              <i
-                onClick={handleDeleteFavoriteAcitivy}
-                className={`bi bi-heart-fill addFavorite isFavorited
-                `}
-              ></i>
-            )}
+            <i
+              onClick={handleAddFavorite}
+              className={`bi bi-heart-fill addFavorite ${
+                isFavorite && "isFavorited"
+              }`}
+            ></i>
             <h2> {name}</h2>
           </li>
           <li>
@@ -139,7 +136,7 @@ function ActivityCard({
         <button>
           <i
             title="Modify your activity"
-            class={`bi bi-wrench-adjustable-circle-fill update_card_activity ${
+            className={`bi bi-wrench-adjustable-circle-fill update_card_activity ${
               !isSectionActivities && "invalidDelete"
             } `}
             onClick={openModalUpdate}
@@ -161,6 +158,7 @@ function ActivityCard({
               season,
               typeActivity,
             }}
+            handleUpdateActivity={handleUpdateActivity}
           />
           <button className="button_accepted" onClick={openModalUpdate}>
             Cancelar

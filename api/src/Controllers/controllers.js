@@ -44,7 +44,6 @@ module.exports = {
     });
     return getAllCountries;
   },
-
   findCountryByID: async (idCountry) => {
     const id = idCountry.toUpperCase();
     const searchCountryByID = await Country.findByPk(id, {
@@ -53,17 +52,19 @@ module.exports = {
     if (!searchCountryByID) throw `${id} Doesnt Exist`;
     return searchCountryByID;
   },
-  ///// filters
-
-  ///server route activities
-  /// mover a otro lado
-  listActivities: async () => {
-    const getAllActivities = await Activity.findAll({
-      include: {
-        model: Country,
-      },
+  listActivities: async (idCountry) => {
+    // const getAllActivities = await Activity.findAll({
+    //   include: {
+    //     model: Country,
+    //   },
+    // });
+    // return getAllActivities;
+    const id = idCountry.toUpperCase();
+    const searchCountryByID = await Country.findByPk(id, {
+      include: Activity,
     });
-    return getAllActivities;
+    if (!searchCountryByID) throw `${id} Doesnt Exist`;
+    return searchCountryByID.activities;
   },
   createActivity: async (
     name,
@@ -71,7 +72,8 @@ module.exports = {
     duration,
     season,
     country,
-    typeActivity
+    typeActivity,
+    image
   ) => {
     if (
       !name ||
@@ -189,8 +191,9 @@ module.exports = {
     });
     return "Successfully modified";
   },
-  updateIsFavorite: async (id) => {
+  updateIsFavorite: async (id, country) => {
     if (!id) throw "Faltan parametros";
+
     let updateActivity = await Activity.findOne({
       where: {
         id,
@@ -200,7 +203,11 @@ module.exports = {
     const currentActivity = await updateActivity.update({
       isFavorite: !updateActivity.isFavorite,
     });
-    return "Successfully modified";
+    const searchCountryByID = await Country.findByPk(country, {
+      include: Activity,
+    });
+    if (!searchCountryByID) throw `${id} Doesnt Exist`;
+    return searchCountryByID.activities;
   },
   createFavorite: async (
     id,
@@ -222,7 +229,6 @@ module.exports = {
       season,
       typeActivity,
     });
-    return "succesfull";
   },
   deleteFavorite: async (id) => {
     if (!id) throw "Faltan parametros";
@@ -234,9 +240,37 @@ module.exports = {
     deleteFavorites.destroy();
     return "Se elimino correctamente";
   },
+  updateCardFavorite: async (
+    id,
+    name,
+    difficult,
+    duration,
+    season,
+    typeActivity
+  ) => {
+    if (!name || !difficult || !duration || !season || !typeActivity || !id) {
+      throw "No se han enviado todos los parametros";
+    }
+    const idString = await id.toString();
+    const activityExisted = await Favorites.findOne({
+      where: {
+        id: idString,
+      },
+    });
+    if (!activityExisted) throw "No existe la actividad";
+    await activityExisted.update({
+      name: name,
+      difficult: difficult,
+      duration: duration,
+      season: season,
+      typeActivity: typeActivity,
+    });
+
+    return "succesfull";
+  },
   listFavorite: async () => {
     const getAllFavorities = await Favorites.findAll();
-  
+
     return getAllFavorities;
   },
 };

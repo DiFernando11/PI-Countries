@@ -35,22 +35,15 @@ function Nav() {
           </li>
 
           <li>
-            <Link to={"/"}>
-              <span>Inicio</span>
+            <Link to={"/createActivity"}>
+              <span>CREATE</span>
               <span>
                 <i className="bi bi-stars"></i>
               </span>
             </Link>
           </li>
 
-          {/* <li>
-            <a href="#0">
-              <span>Projects</span>
-              <span>
-                <i className="bi bi-briefcase"></i>
-              </span>
-            </a>
-          </li> */}
+     
           <li className="logoSocialNetworks">
             <a href="#0">
               <span>

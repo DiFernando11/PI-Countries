@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { favoriteActivities, getCountryDetail } from "../../redux/actions";
+import { getActivities, getCountryDetail } from "../../redux/actions";
 import { imageContinent } from "../../utils/util";
 import ActivityCard from "../activityCard";
 
@@ -11,24 +11,26 @@ function DetailCountry() {
   //states globales
   let detail = useSelector((state) => state.countryDetail);
   let favoriteActivity = useSelector((state) => state.favoriteActivity);
-  const stateRefreshUpdate = useSelector((state) => state.stateRefreshUpdate);
+  let activities = useSelector((state) => state.activities);
+  let stateRefreshUpdate = useSelector((state) => state.stateRefreshUpdate);
   //state locales
   const [cardFavoriteCurrent, setCardFavoriteCurrent] = useState(0);
 
-  const lengthCardsFavorities = favoriteActivity?.length;
   // hooks
+  const lengthCardsFavorities = favoriteActivity?.length;
+  console.log(lengthCardsFavorities, "cars")
+  const continentImg = imageContinent(detail);
   let dispatch = useDispatch();
-  const paramsId = useParams();
-  console.log(paramsId);
   const { id } = useParams();
-  // traigo la informacion de los detalles de cada pais
-
   useEffect(() => {
     dispatch(getCountryDetail(id));
-  }, [dispatch, id, cardFavoriteCurrent, stateRefreshUpdate]);
-  console.log(detail);
+  }, [dispatch, id, stateRefreshUpdate]);
 
-  const continentImg = imageContinent(detail);
+  useEffect(() => {
+    dispatch(getActivities(id));
+  }, [dispatch, stateRefreshUpdate, id]);
+
+  //Carrusel
   const nextCardFavority = () => {
     setCardFavoriteCurrent(
       cardFavoriteCurrent === lengthCardsFavorities - 1
@@ -85,11 +87,11 @@ function DetailCountry() {
               <h2>Favorites Activities</h2>
               <div className="container_favorities_Activities">
                 <button onClick={prevCardFavority}>
-                  <i class="bi bi-arrow-left-square"></i>
+                  <i className="bi bi-arrow-left-square"></i>
                 </button>
                 {favoriteActivity.length ? (
                   favoriteActivity.map((favorite, index) => (
-                    <div>
+                    <div key={favorite.id}>
                       {cardFavoriteCurrent === index && (
                         <ActivityCard
                           key={index}
@@ -102,6 +104,9 @@ function DetailCountry() {
                           isFavorite={favorite.isFavorite}
                           countryId={id}
                           isSectionActivities={false}
+                          setCardFavoriteCurrent={setCardFavoriteCurrent}
+                          lengthCardsFavorities={lengthCardsFavorities}
+                   
                         />
                       )}
                     </div>
@@ -110,7 +115,7 @@ function DetailCountry() {
                   <div>Add Favorites</div>
                 )}
                 <button onClick={nextCardFavority}>
-                  <i class="bi bi-arrow-right-square"></i>
+                  <i className="bi bi-arrow-right-square"></i>
                 </button>
               </div>
             </div>
@@ -124,8 +129,8 @@ function DetailCountry() {
                   <i className="bi bi-plus-circle"></i>
                 </Link>
               </div>
-              {detail.activities
-                ? detail.activities.map((activity) => (
+              {activities.length
+                ? activities.map((activity) => (
                     <ActivityCard
                       key={activity.id}
                       id={activity.id}
@@ -137,6 +142,9 @@ function DetailCountry() {
                       isFavorite={activity.isFavorite}
                       countryId={id}
                       isSectionActivities={true}
+                      setCardFavoriteCurrent={setCardFavoriteCurrent}
+                      lengthCardsFavorities={lengthCardsFavorities}
+    
                     />
                   ))
                 : null}

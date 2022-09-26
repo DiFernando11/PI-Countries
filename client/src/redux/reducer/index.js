@@ -19,6 +19,8 @@ import {
   UPDATE_CARD_FAVORITE,
 } from "../actions";
 import {
+  filterByActividadCountries,
+  filterByContinentsCountry,
   orderCountries,
   orderCountriesByPopulation,
   searchCountry,
@@ -62,6 +64,7 @@ const rootReducer = (state = initialState, action) => {
     case DELETE_ACTIVITY: {
       return {
         ...state,
+        responseCreateActivity: action.payload,
       };
     }
     case UPDATE_ACTIVITY: {
@@ -81,7 +84,7 @@ const rootReducer = (state = initialState, action) => {
         activities: action.payload,
       };
     }
-   
+
     case SORT_BY_NAME_COUNTRIES: {
       return {
         ...state,
@@ -91,8 +94,9 @@ const rootReducer = (state = initialState, action) => {
     case FILTER_BY_CONTINENT: {
       return {
         ...state,
-        countries: state.copyCountries.filter(
-          (country) => country.continent === action.payload
+        countries: filterByContinentsCountry(
+          state.copyCountries,
+          action.payload
         ),
       };
     }
@@ -105,12 +109,10 @@ const rootReducer = (state = initialState, action) => {
     case FILTER_COUNTRIES_BY_ACTIVITY: {
       return {
         ...state,
-        countries: state.copyCountries.filter(
-          (country) =>
-            country.activities &&
-            country.activities
-              .map((activity) => activity.typeActivity)
-              .includes(action.payload)
+        countries: filterByActividadCountries(
+          state.copyCountries,
+          action.payload,
+          action.continent
         ),
       };
     }

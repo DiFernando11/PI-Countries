@@ -92,7 +92,29 @@ export const orderCountriesByPopulation = (order, array) => {
       return array;
   }
 };
-
+export const filterByContinentsCountry = (array, continent) => {
+  if (!continent.length) return array;
+  else return array.filter((country) => continent.includes(country.continent));
+};
+export const filterByActividadCountries = (array, activity, continent) => {
+  if (continent.length) {
+    return array.filter(
+      (country) =>
+        country.activities &&
+        country.activities
+          .map((activity) => activity.typeActivity)
+          .includes(activity) &&
+        continent.includes(country.continent)
+    );
+  }
+  return array.filter(
+    (country) =>
+      country.activities &&
+      country.activities
+        .map((activity) => activity.typeActivity)
+        .includes(activity)
+  );
+};
 export const searchCountry = (name, arr) => {
   switch (name) {
     case "":

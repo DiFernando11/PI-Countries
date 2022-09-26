@@ -73,7 +73,6 @@ module.exports = {
     season,
     country,
     typeActivity,
-    image
   ) => {
     if (
       !name ||

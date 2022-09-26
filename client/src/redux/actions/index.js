@@ -83,7 +83,7 @@ export const sortByNameCountries = (payload) => {
 export const filterByContinent = (payload) => {
   return {
     type: FILTER_BY_CONTINENT,
-    payload,
+    payload: payload,
   };
 };
 export const sortByPopulation = (payload) => {
@@ -93,10 +93,11 @@ export const sortByPopulation = (payload) => {
   };
 };
 
-export const filterCountriesByActivity = (payload) => {
+export const filterCountriesByActivity = (payload, continent) => {
   return {
     type: FILTER_COUNTRIES_BY_ACTIVITY,
     payload,
+    continent,
   };
 };
 export const searchCountries = (payload) => {
@@ -140,11 +141,15 @@ export function getActivities(id) {
 
 export function deleteActivity(id, countryId) {
   return async function (dispatch) {
-    await axios.delete(`http://localhost:3001/activity/${id}`, {
-      data: { countryId },
-    });
+    const response = await axios.delete(
+      `http://localhost:3001/activity/${id}`,
+      {
+        data: { countryId },
+      }
+    );
     return dispatch({
       type: DELETE_ACTIVITY,
+      payload: response,
     });
   };
 }

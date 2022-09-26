@@ -31,13 +31,17 @@ function ActivityCard({
   //ESTADOS LOCALES
   const [modalVisibleDelete, setModalVisibleDelete] = useState(false);
   const [modalVisibleUpdate, setModalVisibleUpdate] = useState(false);
+  const [modalVisibleResponseDelete, setModalVisibleResponseDelete] =
+    useState(false);
   //ESTADOS GLOBALES
   const stateRefreshUpdate = useSelector((state) => state.stateRefreshUpdate);
+  const responseCreateActivity = useSelector(
+    (state) => state.responseCreateActivity
+  );
+  console.log(responseCreateActivity);
   //HOOKS
   let dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(favoriteActivities());
-  }, [dispatch, stateRefreshUpdate]);
+  console.log(stateRefreshUpdate);
   //HANDLERS
   const openModalUpdate = () => {
     setModalVisibleUpdate(!modalVisibleUpdate);
@@ -45,12 +49,18 @@ function ActivityCard({
 
   const openModalDelete = () => {
     setModalVisibleDelete(!modalVisibleDelete);
+    dispatch(setRefreshUpdate());
+    setModalVisibleResponseDelete(true);
+  };
+  const openModalResponseDelete = () => {
+    setModalVisibleResponseDelete(false);
+    dispatch(setRefreshUpdate());
   };
   const handleDeleteActivity = () => {
     dispatch(deleteActivity(id, countryId));
     dispatch(deleteFavority(id));
-    setModalVisibleDelete(false);
     dispatch(setRefreshUpdate());
+    setModalVisibleDelete(false);
   };
   const handleUpdateActivity = (e, input) => {
     e.preventDefault();
@@ -59,7 +69,6 @@ function ActivityCard({
     dispatch(updateCardFavorite(id, input));
     setModalVisibleUpdate(false);
   };
-  console.log(lengthCardsFavorities);
 
   const handleAddFavorite = () => {
     if (!isFavorite) {
@@ -133,16 +142,22 @@ function ActivityCard({
             <span>Type: </span> {typeActivity}
           </li>
         </ul>
-        <button>
+        <button className={!isSectionActivities ? "invalidDelete" : null}>
           <i
             title="Modify your activity"
-            className={`bi bi-wrench-adjustable-circle-fill update_card_activity ${
-              !isSectionActivities && "invalidDelete"
-            } `}
+            className={`bi bi-wrench-adjustable-circle-fill update_card_activity `}
             onClick={openModalUpdate}
           ></i>
         </button>
       </div>
+      {modalVisibleResponseDelete ? (
+        <Modal title={"Succesfull"}>
+          {responseCreateActivity.data}
+          <button className="button_accepted" onClick={openModalResponseDelete}>
+            Aceptar
+          </button>
+        </Modal>
+      ) : null}
       {modalVisibleUpdate ? (
         <Modal
           title={"Modificar"}

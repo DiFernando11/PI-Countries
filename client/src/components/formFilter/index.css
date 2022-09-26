@@ -135,3 +135,39 @@
 .container_All {
   margin-left: 8px;
 }
+/* stylos checbox */
+
+.lbl_switch_checkBox {
+  width: 48px;
+  height: 16px;
+  margin-right: 8px;
+  background: linear-gradient(to top, rgb(235, 174, 182), rgb(224, 220, 220));
+  border-radius: 100px;
+  padding: 4px;
+  cursor: pointer;
+  box-shadow: -5px -5px 20px rgb(255 255 255 / 10%), 5px 5px 10px rgb(0 0 0),
+    inset -2px -2px 5px rgb(255 255 255 / 10%),
+    inset 2px 2px 5px rgb(0 0 0 / 50%), 0 0 0 2px #1f1f1f;
+}
+.lbl_switch_checkBox::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  background: rgb(30, 29, 29);
+  border-radius: 100px;
+  transition: 0.3s;
+}
+
+.checkBoxContinentValue {
+  display: none;
+}
+.checkBoxContinentValue:checked ~ .lbl_switch_checkBox::after {
+  background-color: #08ffa0;
+  box-shadow: 0 0 5px #dc143c, 0 0 15px #dc143c, 0 0 30px #dc143c;
+}
+.checkBoxContinentValue:checked ~ .lbl_switch_checkBox {
+  background: rgb(212, 37, 37);
+}
+.checkBoxContinentValue:checked ~ .lbl_switch_checkBox::after {
+  left: 28px;
+}

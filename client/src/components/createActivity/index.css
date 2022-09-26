@@ -1,6 +1,11 @@
-.form_create_activity p.danger {
+.form_create_activity span.danger {
   color: red;
-  font-size: 10px;
+  font-size: 11px;
+  -webkit-text-stroke: 0.5px rgb(254, 0, 0);
+}
+.form_create_activity .bi-exclamation-triangle-fill {
+  font-size: 15px;
+  -webkit-text-stroke: 0.8px rgb(254, 0, 0);
 }
 .container_search_addCountries span {
   color: black;
@@ -9,55 +14,66 @@
 .form_create_activity .container_selected_countries {
   display: flex;
 }
+/* button submit */
 .form_create_activity .desactivated_form_search_country {
   display: none;
 }
-.form_create_activity .descativated_button_createActivity {
-  cursor: not-allowed;
-  border: 2px outset ButtonFace;
-  /* color: GrayText; */
-  pointer-events: none;
-  font-family: "roboto";
-
-  background: -webkit-linear-gradient(to right, #b06ab3, #4568dc);
-  background: linear-gradient(to right, #b06ab3, #4568dc);
-  border: none;
-  display: block;
-  width: 100%;
-  margin: 10px auto;
-  color: #fff;
-  height: 40px;
-  border-radius: 4px;
-  box-shadow: 0 5px 25px rgba(0, 0, 0.5);
-}
-.form_create_activity .activated_button_createActivity {
-  font-family: "roboto";
+.buttonSubmitActivity {
+  min-width: 300px;
+  min-height: 50px;
+  margin: auto;
+  font-family: "Nunito", sans-serif;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 1.3px;
+  font-weight: 700;
+  color: #fefefe;
   background: #4568dc;
   background: -webkit-linear-gradient(to right, #b06ab3, #4568dc);
   background: linear-gradient(to right, #b06ab3, #4568dc);
   border: none;
-  display: block;
-  width: 80%;
-  margin: 10px auto;
-  color: #fff;
-  height: 40px;
+  border-radius: 1000px;
+  box-shadow: 12px 12px 24px rgba(83, 55, 107, 0.64);
+  transition: all 0.3s ease-in-out 0s;
   cursor: pointer;
-  border-radius: 4px;
-  box-shadow: 0 5px 25px rgba(0, 0, 0.5);
+  outline: none;
+  position: relative;
+  padding: 10px;
+}
+
+.activated_button_createActivity::after {
+  content: "";
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  border: 6px solid #ef0abe;
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: ringSubmit 1s infinite;
+}
+
+.form_create_activity .descativated_button_createActivity {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form_create_activity .activated_button_createActivity {
+  cursor: pointer;
 }
 .main_create_activity {
-  background-image: url("../../assets/pexels-moose-photos-1037993.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  height: 90vh;
+  height: 100%;
 }
 .main_create_activity .section_card_form_design {
   min-width: 500px;
-  border: 1px solid black;
+  border-right: 0.5px solid rgb(163, 157, 157);
 }
 .main_create_activity .container_form {
   display: flex;
-
   max-width: 1000px;
   margin: auto;
 }
@@ -65,26 +81,13 @@
   width: 100%;
 }
 .container_form {
-  background: #f0c27b; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    #4b1248,
-    #f0c27b
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
-    #4b1248,
-    #f0c27b
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  /* fallback for old browsers */
-  min-height: 530px; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  background: -webkit-linear-gradient(to right, #4b1248, #f0c27b);
+  background: linear-gradient(to right, #4b4c47, #b7a2b3);
+  min-height: 530px;
+  border-radius: 16px;
 }
 
-/* .main_create_activity .section_card_form {
-  padding: 8px;
-  color: black;
-}
-/*  */
 .main_create_activity .section_card_form h1 {
   text-align: center;
   font-weight: 700;
@@ -93,10 +96,6 @@
   border-radius: 16px;
   width: 400px;
   margin: 4px auto;
-
-  box-shadow: 0 4px 30px rgba(253, 253, 253, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgb(241, 232, 232);
 }
 .form_create_activity {
@@ -135,7 +134,7 @@
   color: #5e5d5d;
 }
 .form label {
-  color: #49454567;
+  color: #f7f7f7;
   font-size: 16px;
   position: absolute;
   bottom: 0;
@@ -246,8 +245,18 @@ input:valid ~ label {
   justify-content: center;
   border-radius: 8px;
 }
-.container_not_countries_add p {
-  text-align: center;
+.container_not_countries_add span {
+  margin-right: 6px;
+  -webkit-text-stroke: 0.5px rgb(254, 0, 0);
+}
+
+.container_message_error_notCountries {
+  display: flex;
+  justify-content: center;
+}
+.container_message_error_notCountries i {
+  font-size: 15px;
+  -webkit-text-stroke: 0.8px rgb(254, 0, 0);
 }
 .card_middle_form_design {
   height: 50%;
@@ -264,13 +273,26 @@ input:valid ~ label {
   margin-top: 50px;
 }
 
-.section_card_form_design_modified{
+.section_card_form_design_modified {
   display: none;
   box-shadow: none;
 }
-.main_create_activity_modifed{
+.main_create_activity_modifed {
   width: 400px;
   margin: auto;
   border-radius: 16px;
   height: auto;
+}
+
+@keyframes ringSubmit {
+  0% {
+    width: 30px;
+    height: 30px;
+    opacity: 1;
+  }
+  100% {
+    width: 150px;
+    height: 150px;
+    opacity: 0;
+  }
 }

@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createPostActivity, getAllCountries } from "../../redux/actions";
+import {
+  createPostActivity,
+  getAllCountries,
+  setRefreshUpdate,
+} from "../../redux/actions";
 import "./index.css";
 import { validate } from "../../utils/util";
 import { searchCountry } from "../../utils/util";
@@ -19,6 +23,7 @@ function CreateActivity({
   let responseCreateActivity = useSelector(
     (state) => state.responseCreateActivity
   );
+  let stateRefreshUpdate = useSelector((state) => state.stateRefreshUpdate);
   //stados locales
   //maneja lo enviado por input del usuario
   const [country, setCountries] = useState("");
@@ -40,13 +45,14 @@ function CreateActivity({
     typeActivity: initialState.typeActivity,
     country: [],
   });
+
   // hago una copia de los paises sin mutar los paises originales
   const copyArrayCountries = [...copyCountries];
   //hooks
   let dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllCountries());
-  }, [dispatch]);
+  }, [dispatch, stateRefreshUpdate]);
   // hanlders
 
   //enviamos los datos por post a la base de datos
@@ -106,6 +112,10 @@ function CreateActivity({
       country: [...deleteCountry],
     });
   };
+  const handleOpenModalCreateCountry = () => {
+    setModalVisible(false);
+    dispatch(setRefreshUpdate());
+  };
 
   return (
     <main
@@ -151,14 +161,16 @@ function CreateActivity({
                   src={imgAddCountry}
                   alt="add Countries"
                 />
-                <p>No has agregado un pais para tu actividad</p>
+                <div className="container_message_error_notCountries">
+                  <span>No has agregado un pais para tu actividad</span>
+                  <i class="bi bi-exclamation-triangle-fill"></i>
+                </div>
               </div>
             )}
           </div>
 
           <div className="container_image_form_presentation">
-            {/* <img src={preview} alt="" /> */}
-            <img src={imgFormCountry} alt="" />
+            <img src={imgFormCountry} alt="image formulario" />
           </div>
         </section>
 
@@ -178,13 +190,17 @@ function CreateActivity({
                     className={errors.country && "danger"}
                     type="text"
                     name="country"
+                    placeholder="Search Countries"
                     onChange={(e) => handleSearchCountry(e)}
                     autoComplete="off"
                   />
 
                   <label form="country">Country</label>
                   {errors.country && (
-                    <p className="danger">{errors.country} </p>
+                    <div className="flexContainerError">
+                      <span className="danger">{errors.country} </span>
+                      <i class="bi bi-exclamation-triangle-fill"></i>
+                    </div>
                   )}
                   {country.length
                     ? countryBySearch
@@ -219,7 +235,12 @@ function CreateActivity({
                 />
                 <span className="barra"></span>
                 <label form="name">Name:</label>
-                {errors.name && <p className="danger">{errors.name} </p>}
+                {errors.name && (
+                  <div className="flexContainerError">
+                    <span className="danger">{errors.name} </span>
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                  </div>
+                )}
               </div>
               <div className="group">
                 <input
@@ -236,7 +257,10 @@ function CreateActivity({
                 <span className="barra"></span>
                 <label form="difficult">Difficult:</label>
                 {errors.difficult && (
-                  <p className="danger">{errors.difficult} </p>
+                  <div>
+                    <span className="danger">{errors.difficult} </span>
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                  </div>
                 )}
               </div>
               <div className="group">
@@ -252,7 +276,10 @@ function CreateActivity({
                 <span className="barra"></span>
                 <label form="duration">Duration:</label>
                 {errors.duration && (
-                  <p className="danger">{errors.duration} </p>
+                  <div>
+                    <span className="danger">{errors.duration} </span>
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                  </div>
                 )}
               </div>
               <div className="group">
@@ -292,25 +319,29 @@ function CreateActivity({
                   </select>
                 </div>
               </div>
-              <button
-                type="submit"
-                onClick={
-                  !desactivatedFormSearchCountries
-                    ? () => setModalVisibleUpdate(true)
-                    : () => console.log("buenos dias")
-                }
-                className={
-                  desactivatedFormSearchCountries
-                    ? !Object.entries(errors).length && selectCountry.length
-                      ? "activated_button_createActivity"
-                      : "descativated_button_createActivity"
-                    : "activated_button_createActivity"
-                }
-              >
-                {desactivatedFormSearchCountries
-                  ? "Create Activity"
-                  : "MODIFICAR"}
-              </button>
+              <div className="wraper">
+                <button
+                  type="submit"
+                  onClick={
+                    !desactivatedFormSearchCountries
+                      ? () => setModalVisibleUpdate(true)
+                      : () => console.log("buenos dias")
+                  }
+                  className={`
+                  buttonSubmitActivity
+                   ${
+                     desactivatedFormSearchCountries
+                       ? !Object.entries(errors).length && selectCountry.length
+                         ? "activated_button_createActivity"
+                         : "descativated_button_createActivity"
+                       : "activated_button_createActivity"
+                   }`}
+                >
+                  {desactivatedFormSearchCountries
+                    ? "Create Activity"
+                    : "MODIFICAR"}
+                </button>
+              </div>
             </div>
           </form>
         </section>
@@ -324,7 +355,7 @@ function CreateActivity({
 
           <button
             className="button_accepted"
-            onClick={() => setModalVisible(false)}
+            onClick={handleOpenModalCreateCountry}
           >
             Aceptar
           </button>

@@ -27,9 +27,16 @@ function Nav() {
           <li>
             <Link to={"/home"}>
               <span>Home</span>
-
               <span>
                 <i className="bi bi-house-door"></i>
+              </span>
+            </Link>
+          </li>
+          <li>
+            <Link to={"/about"}>
+              <span>About</span>
+              <span>
+              <i class="bi bi-person-heart"></i>
               </span>
             </Link>
           </li>

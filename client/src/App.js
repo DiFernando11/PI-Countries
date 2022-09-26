@@ -6,18 +6,16 @@ import Home from "./components/home";
 import LandingPage from "./components/landingPage";
 import Nav from "./components/nav";
 
-
 function App() {
   return (
     <>
       <Route
-        path={["/home", "/detailCountry/:id", "/createActivity"]}
+        path={["/home", "/detailCountry/:id", "/createActivity", "/about"]}
         component={Nav}
       />
       <Route exact path={"/"} component={LandingPage} />
       <Route path={"/home"} component={Home} />
-      {/* <Route path={"/home/continent"} /> */}
-
+      <Route path={"/about"} />
       <Route path={"/detailCountry/:id"} component={DetailCountry} />
 
       <Route exact path={"/createActivity"}>

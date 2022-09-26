@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { getActivities, getCountryDetail } from "../../redux/actions";
+import {
+  favoriteActivities,
+  getActivities,
+  getCountryDetail,
+} from "../../redux/actions";
 import { imageContinent } from "../../utils/util";
+import giftNotActivities from "../../assets/44165998-composizione-vettoriale-di-monumenti-famosi-di-fronte-a-un-cielo-soleggiato-con-un-aereo-e-palloni-.webp";
 import ActivityCard from "../activityCard";
 
 import "./index.css";
@@ -18,7 +23,7 @@ function DetailCountry() {
 
   // hooks
   const lengthCardsFavorities = favoriteActivity?.length;
-  console.log(lengthCardsFavorities, "cars")
+  console.log(lengthCardsFavorities, "cars");
   const continentImg = imageContinent(detail);
   let dispatch = useDispatch();
   const { id } = useParams();
@@ -29,7 +34,9 @@ function DetailCountry() {
   useEffect(() => {
     dispatch(getActivities(id));
   }, [dispatch, stateRefreshUpdate, id]);
-
+  useEffect(() => {
+    dispatch(favoriteActivities());
+  }, [dispatch, stateRefreshUpdate]);
   //Carrusel
   const nextCardFavority = () => {
     setCardFavoriteCurrent(
@@ -45,7 +52,7 @@ function DetailCountry() {
         : cardFavoriteCurrent - 1
     );
   };
-
+  console.log(favoriteActivity);
   return (
     <main>
       <section>
@@ -84,11 +91,17 @@ function DetailCountry() {
             </div>
 
             <div className="section_favorities_Activities">
-              <h2>Favorites Activities</h2>
+              <h3>Favorites Activities</h3>
               <div className="container_favorities_Activities">
-                <button onClick={prevCardFavority}>
-                  <i className="bi bi-arrow-left-square"></i>
-                </button>
+                <div className="wrap">
+                  <button
+                    className="carrusel_button"
+                    onClick={prevCardFavority}
+                  >
+                    <i className="bi bi-chevron-left"></i>
+                  </button>
+                </div>
+
                 {favoriteActivity.length ? (
                   favoriteActivity.map((favorite, index) => (
                     <div key={favorite.id}>
@@ -106,31 +119,39 @@ function DetailCountry() {
                           isSectionActivities={false}
                           setCardFavoriteCurrent={setCardFavoriteCurrent}
                           lengthCardsFavorities={lengthCardsFavorities}
-                   
                         />
                       )}
                     </div>
                   ))
                 ) : (
-                  <div>Add Favorites</div>
+                  <p className="text_not_favorites_activities">
+                    No tienes actividades Favoritas
+                  </p>
                 )}
-                <button onClick={nextCardFavority}>
-                  <i className="bi bi-arrow-right-square"></i>
-                </button>
+
+                <div className="wrap">
+                  <button
+                    className="carrusel_button"
+                    onClick={nextCardFavority}
+                  >
+                    <i className="bi bi-chevron-right"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
           <section className="section_activities">
             <h5>Activities</h5>
-
-            <div className="container_Activities">
-              <div className="addActivities">
-                <Link to={"/createActivity"}>
-                  <i className="bi bi-plus-circle"></i>
-                </Link>
-              </div>
-              {activities.length
-                ? activities.map((activity) => (
+            {activities.length ? (
+              <div className="container_Activities">
+                <div className="addActivities">
+                  <span>Agregar</span>
+                  <Link to={"/createActivity"}>
+                    <i className="bi bi-plus-circle"></i>
+                  </Link>
+                </div>
+                {activities.length &&
+                  activities.map((activity) => (
                     <ActivityCard
                       key={activity.id}
                       id={activity.id}
@@ -144,11 +165,23 @@ function DetailCountry() {
                       isSectionActivities={true}
                       setCardFavoriteCurrent={setCardFavoriteCurrent}
                       lengthCardsFavorities={lengthCardsFavorities}
-    
                     />
-                  ))
-                : null}
-            </div>
+                  ))}
+              </div>
+            ) : (
+              <div className="containerNotActivities">
+                <div className="addActivities notActivitesAdd">
+                  <span>Agregar</span>
+                  <Link to={"/createActivity"}>
+                    <i className="bi bi-plus-circle"></i>
+                  </Link>
+                </div>
+                <div>
+                  <p>No hay actividades disponibles</p>
+                  <img src={giftNotActivities} alt="not activities" />
+                </div>
+              </div>
+            )}
           </section>
         </div>
       </section>

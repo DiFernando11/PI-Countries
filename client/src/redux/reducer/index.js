@@ -16,7 +16,6 @@ import {
   REFRESH_STATE,
   GET_ALL_ACTIVITIES,
   IS_FAVORITE_ACTIVITY,
-  UPDATE_CARD_FAVORITE,
 } from "../actions";
 import {
   filterByActividadCountries,
@@ -70,6 +69,7 @@ const rootReducer = (state = initialState, action) => {
     case UPDATE_ACTIVITY: {
       return {
         ...state,
+         responseCreateActivity: action.payload,
       };
     }
     case GET_ALL_ACTIVITIES: {

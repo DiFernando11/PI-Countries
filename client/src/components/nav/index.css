@@ -4,7 +4,7 @@ header {
 nav {
   display: flex;
   justify-content: space-between;
-  background: linear-gradient(rgb(236, 126, 211),rgb(235, 51, 51));
+  background: linear-gradient(rgb(236, 126, 211), rgb(235, 51, 51));
 }
 
 nav li {
@@ -59,6 +59,12 @@ nav li {
 }
 .navContact {
   border: 1px solid hsla(0, 5%, 12%, 0.5);
+}
+.displey_center img {
+  width: 90px;
+  height: 24px;
+  align-self: center;
+  margin: 19px 0px 0px 60px;
 }
 
 .navMenu a,
@@ -133,54 +139,13 @@ nav li {
 .nav_menu_visible[data-animation="to-left"] a:hover span:first-child {
   transform: translateX(-100%);
 }
-
-/* @media (max-width: 1090px) {
-  /* header {
-    height: 100px;
-  } */
-/* .nav_menu_visible {
-    flex-direction: column;
-    position: fixed;
-    right: 0;
-    top: 92px;
-    line-height: 16px;
- 
-    z-index: 1;
-  }
-  .navMenu {
-    position: fixed;
-    z-index: 2;
-  }
-  .buttonListMenu {
-    display: block;
-    margin-right: 16px;
-    font-size: 36px;
-    background-color: none;
-    transition: left 0.3s;
-  }
-  .logoStaff {
-    font-size: 8vw;
-  }
-  nav li {
-    font-size: 12px;
-  }
-  .logoSocialNetworks , .navContact {
-    border: none;
-    border-radius: 0;
-  }
-  .logoSocialNetworks:hover {
-    background-color: transparent;
-  }
-  .socialArrow{
-    color: white;
-  } */
-/* } */
-/* @media (max-width: 740px) {
- 
-  nav{
-    height: 88px;
-  }
-  .logoStaff{
-    margin: 0;
-  }
-} */
+.sectionCurrent {
+  background: linear-gradient(rgb(211, 156, 198), rgb(225, 117, 117));
+  border-radius: 3px;
+}
+.toLandingPage {
+  width: 48px;
+  height: 48px;
+  margin: 4px;
+  cursor: pointer;
+}

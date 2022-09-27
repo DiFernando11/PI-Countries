@@ -17,6 +17,7 @@
 }
 .container_button_page .button_page:hover {
   background: #e0d8d8;
+
 }
 
 .activie_page {
@@ -37,4 +38,5 @@
 .container_button_page {
   display: flex;
   justify-content: center;
+  margin-top: 6px;
 }

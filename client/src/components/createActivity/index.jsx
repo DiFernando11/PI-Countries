@@ -12,6 +12,7 @@ import imgAddCountry from "../../assets/crying-89.webp";
 import imgFormCountry from "../../assets/PM-Form-Integrations-01-1.webp";
 import imgSuccesfullPost from "../../assets/c6842479-e0ee-49a2-9053-d00639074f7a_tick.gif";
 import Modal from "../modal";
+import { useLocation } from "react-router-dom";
 
 function CreateActivity({
   desactivatedFormSearchCountries,
@@ -29,11 +30,13 @@ function CreateActivity({
   const [country, setCountries] = useState("");
   //muestra los paises posibles dependiente de lo que escriba el usario
   const [countryBySearch, setCountryBySearch] = useState([]);
-  //maneja los paises seleccionados que van a contener la actividad creada
-  const [selectCountry, setSelectCountry] = useState([]);
-  // state modal
+  const location = useLocation();
+  const countryNameSelect = location.state?.name;
+  const [selectCountry, setSelectCountry] = useState(
+    !countryNameSelect ? [] : [countryNameSelect]
+  );
+
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalVisibleUpdate, setModalVisibleUpdate] = useState(false);
   // maneja los errores
   const [errors, setErrors] = useState({});
   //maneja los datos enviados por el usuario
@@ -62,7 +65,6 @@ function CreateActivity({
     setErrors(validate({ ...input, [e.target.name]: e.target.value }));
   };
   const handleSubmit = (e) => {
-    console.log(input);
     e.preventDefault();
     try {
       dispatch(createPostActivity(input));
@@ -82,7 +84,7 @@ function CreateActivity({
     setCountries("");
     setModalVisible(true);
   };
-  //busca los paises que el usario desee
+
   const handleSearchCountry = (e) => {
     e.preventDefault();
     setCountries(e.target.value);
@@ -90,7 +92,6 @@ function CreateActivity({
     setCountryBySearch(copyCountries);
   };
 
-  // agregar paises al input country
   const handleAddCountry = (country) => {
     if (!selectCountry.some((c) => c.name === country.name)) {
       setSelectCountry((prevState) => [...prevState, country]);
@@ -103,7 +104,7 @@ function CreateActivity({
       delete errors.country;
     }
   };
-  // elimina paises del input country
+
   const handleDeleteCountry = (countryName) => {
     const deleteCountry = selectCountry.filter((c) => c !== countryName);
     setSelectCountry(deleteCountry);
@@ -162,15 +163,15 @@ function CreateActivity({
                   alt="add Countries"
                 />
                 <div className="container_message_error_notCountries">
-                  <span>No has agregado un pais para tu actividad</span>
-                  <i class="bi bi-exclamation-triangle-fill"></i>
+                  <span>You have not added a country for your activity</span>
+                  <i className="bi bi-exclamation-triangle-fill"></i>
                 </div>
               </div>
             )}
           </div>
 
           <div className="container_image_form_presentation">
-            <img src={imgFormCountry} alt="image formulario" />
+            <img src={imgFormCountry} alt="form presentatio create" />
           </div>
         </section>
 
@@ -199,7 +200,7 @@ function CreateActivity({
                   {errors.country && (
                     <div className="flexContainerError">
                       <span className="danger">{errors.country} </span>
-                      <i class="bi bi-exclamation-triangle-fill"></i>
+                      <i className="bi bi-exclamation-triangle-fill"></i>
                     </div>
                   )}
                   {country.length
@@ -238,7 +239,7 @@ function CreateActivity({
                 {errors.name && (
                   <div className="flexContainerError">
                     <span className="danger">{errors.name} </span>
-                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <i className="bi bi-exclamation-triangle-fill"></i>
                   </div>
                 )}
               </div>
@@ -259,7 +260,7 @@ function CreateActivity({
                 {errors.difficult && (
                   <div>
                     <span className="danger">{errors.difficult} </span>
-                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <i className="bi bi-exclamation-triangle-fill"></i>
                   </div>
                 )}
               </div>
@@ -278,7 +279,7 @@ function CreateActivity({
                 {errors.duration && (
                   <div>
                     <span className="danger">{errors.duration} </span>
-                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <i className="bi bi-exclamation-triangle-fill"></i>
                   </div>
                 )}
               </div>
@@ -322,11 +323,6 @@ function CreateActivity({
               <div className="wraper">
                 <button
                   type="submit"
-                  onClick={
-                    !desactivatedFormSearchCountries
-                      ? () => setModalVisibleUpdate(true)
-                      : () => console.log("buenos dias")
-                  }
                   className={`
                   buttonSubmitActivity
                    ${
@@ -356,23 +352,6 @@ function CreateActivity({
           <button
             className="button_accepted"
             onClick={handleOpenModalCreateCountry}
-          >
-            Aceptar
-          </button>
-        </Modal>
-      )}
-      {modalVisibleUpdate && (
-        <Modal>
-          <div className="containerSuccesfullModal">
-            <p className="modal_text_verificated">
-              Se ha modificado correctamente
-            </p>
-            <img src={imgSuccesfullPost} alt="succesfull Post" />
-          </div>
-
-          <button
-            className="button_accepted"
-            onClick={() => setModalVisibleUpdate(false)}
           >
             Aceptar
           </button>

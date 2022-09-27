@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   filterByContinent,
   filterCountriesByActivity,
-  getAllCountries,
   searchCountriesByActivities,
   setStateCountry,
   sortByNameCountries,
@@ -14,25 +13,18 @@ import "./index.css";
 
 function FormFilter() {
   // //estados globales
-  //stado que controlado el radio button de contintente y tipo de actividades
+  //stado que controlado el button Todos
   let stateCountry = useSelector((state) => state.stateCountry);
   //estados locales
   //stado que controla el radio button de ordenamientos
   const [stateRadio, setStateRadio] = useState("All");
   // este estado controla el input de busqueda por actividad
   const [countryByActivity, setCountryByActivity] = useState("");
-  //stado que verifica en que seccion me encuentro si continente o activities
-  const [currentRadio, setCurrentRadio] = useState("default");
-  // const [stateRadioContinent, setStateRadioContinent] = useState("All");
   const [checkBoxContinent, setCheckBoxContinent] = useState([]);
-  // console.log(stateRadio, "stateRadio");
-  // console.log(currentRadio, "current");
-  // console.log(stateCountry, "state");
+  const [checkBoxActivity, setCheckboxActivity] = useState([]);
   //hooks
   let dispatch = useDispatch();
   // HANLDERS
-  //ORDENAMIENTO
-  //ordena los paises por nombre
 
   const handleSortByName = (order, e) => {
     dispatch(sortByNameCountries(order));
@@ -43,17 +35,29 @@ function FormFilter() {
     dispatch(sortByPopulation(order));
     setStateRadio(e.target.value);
   };
-  //CONTINENT
-  //filtra paises por actividad
-  const handleFilterByActivity = (typeActivity, e) => {
-    dispatch(filterCountriesByActivity(typeActivity, checkBoxContinent));
-    dispatch(setStateCountry(e.target.value));
-    dispatch(statePage(1));
-    // setStateRadio("default");
-    setCurrentRadio("Activity");
-  };
 
-  //tomo los datos que se escriben por el input
+  const handleValueFilterByActivity = (e, idCheckbox, activity) => {
+    const isChecked = document.getElementById(idCheckbox).checked;
+    if (isChecked) {
+      setCheckboxActivity((prev) => [...prev, e.target.value]);
+      dispatch(
+        filterCountriesByActivity(
+          [...checkBoxActivity, activity],
+          checkBoxContinent
+        )
+      );
+    } else {
+      const deleteActivity = checkBoxActivity.filter(
+        (c) => c !== e.target.value
+      );
+      setCheckboxActivity([...deleteActivity]);
+      const activitiesFilter = checkBoxActivity.filter((c) => c !== activity);
+      dispatch(filterCountriesByActivity(activitiesFilter, checkBoxContinent));
+    }
+    // dispatch(setStateCountry("default"));
+    setStateRadio("default");
+    dispatch(setStateCountry("All"));
+  };
   const handleInputByActiviyt = (e) => {
     e.preventDefault();
     setCountryByActivity(e.target.value);
@@ -64,45 +68,54 @@ function FormFilter() {
     dispatch(searchCountriesByActivities(countryByActivity));
     dispatch(setStateCountry(""));
     setCountryByActivity("");
+    resetValueCheckBox();
+    dispatch(setStateCountry("default"));
   };
-  //TODOS LOS PAIS
-  //trae los paises de la base de datos
+
   const handlerGetCountries = (e) => {
-    dispatch(getAllCountries());
-    setStateRadio(e.target.value);
-    dispatch(setStateCountry(e.target.value));
+    // setRefreshUpdate();
+    dispatch(setStateCountry("All"));
     dispatch(statePage(1));
-    setCheckBoxContinent([]);
-    const refere = document.getElementsByClassName("checkBoxContinentValue");
-    for (let index = 0; index < refere.length; index++) {
-      refere[index].checked = false;
-    }
   };
-  //trae los paises a su estado inicial (//sin orden )
 
   const handleValueChange = (e, idCheckbox, continent) => {
-    // setCheckBoxContinent({
-    //   ...checkBoxContinent,
-    //   [e.target.name]: e.target.value,
-    // });
-
     var isChecked = document.getElementById(idCheckbox).checked;
     if (isChecked) {
       setCheckBoxContinent((prev) => [...prev, e.target.value]);
-      dispatch(filterByContinent([...checkBoxContinent, continent]));
+      if (!checkBoxActivity.length) {
+        dispatch(filterByContinent([...checkBoxContinent, continent]));
+      } else {
+        dispatch(
+          filterCountriesByActivity(checkBoxActivity, [
+            ...checkBoxContinent,
+            continent,
+          ])
+        );
+      }
     } else {
       const deleteCountry = checkBoxContinent.filter(
         (c) => c !== e.target.value
       );
       setCheckBoxContinent([...deleteCountry]);
+
       const continentsFilter = checkBoxContinent.filter((c) => c !== continent);
-      dispatch(filterByContinent(continentsFilter));
+      if (!checkBoxActivity.length) {
+        dispatch(filterByContinent(continentsFilter));
+      } else {
+        dispatch(filterCountriesByActivity(checkBoxActivity, continentsFilter));
+      }
     }
-    dispatch(setStateCountry("default"));
+    dispatch(setStateCountry("All"));
     setStateRadio("default");
   };
 
-  // console.log(checkBoxContinent);
+  const resetValueCheckBox = () => {
+    const refere = document.getElementsByClassName("checkBoxContinentValue");
+    for (let index = 0; index < refere.length; index++) {
+      refere[index].checked = false;
+    }
+  };
+
   return (
     <form className="container_form_filter">
       <label
@@ -110,6 +123,7 @@ function FormFilter() {
         htmlFor="searchActivity"
       >
         <input
+          autoComplete="off"
           id="searchActivity"
           type="text"
           placeholder="Search Activity..."
@@ -124,7 +138,7 @@ function FormFilter() {
         </div>
       </label>
       <label className="container_All" htmlFor="allCountries">
-        Todos
+        All
         <input
           className="inputRadio"
           id="allCountries"
@@ -159,7 +173,7 @@ function FormFilter() {
             name={"Europe"}
             onChange={(e) => handleValueChange(e, "checkEurope", "Europe")}
           />
-            <label htmlFor="checkEurope" className="lbl_switch_checkBox"></label>
+          <label htmlFor="checkEurope" className="lbl_switch_checkBox"></label>
         </label>
         <label htmlFor="continentAsia">
           Asia
@@ -171,7 +185,7 @@ function FormFilter() {
             name={"Asia"}
             onChange={(e) => handleValueChange(e, "checkAsia", "Asia")}
           />
-              <label htmlFor="checkAsia" className="lbl_switch_checkBox"></label>
+          <label htmlFor="checkAsia" className="lbl_switch_checkBox"></label>
         </label>
         <label htmlFor="continentAntartic">
           Antarctic
@@ -185,7 +199,10 @@ function FormFilter() {
               handleValueChange(e, "checkAntarctic", "Antarctic")
             }
           />
-           <label htmlFor="checkAntarctic" className="lbl_switch_checkBox"></label>
+          <label
+            htmlFor="checkAntarctic"
+            className="lbl_switch_checkBox"
+          ></label>
         </label>
         <label htmlFor="continentAfrica">
           Africa
@@ -197,7 +214,7 @@ function FormFilter() {
             name={"Africa"}
             onChange={(e) => handleValueChange(e, "checkAfrica", "Africa")}
           />
-           <label htmlFor="checkAfrica" className="lbl_switch_checkBox"></label>
+          <label htmlFor="checkAfrica" className="lbl_switch_checkBox"></label>
         </label>
         <label htmlFor="continentOceania">
           Oceania
@@ -209,89 +226,119 @@ function FormFilter() {
             name={"Oceania"}
             onChange={(e) => handleValueChange(e, "checkOceania", "Oceania")}
           />
-           <label htmlFor="checkOceania" className="lbl_switch_checkBox"></label>
+          <label htmlFor="checkOceania" className="lbl_switch_checkBox"></label>
         </label>
       </fieldset>
       <fieldset>
-        <legend>Order by Activity</legend>
+        <legend>Activity</legend>
         <label htmlFor="deportiva">
           Deportiva
           <input
-            className="inputRadio"
-            id="deportiva"
-            type="radio"
-            name="activity"
+            className="checkBoxContinentValue"
+            type="checkbox"
+            id="checkDeportiva"
             value={"Deportiva"}
-            checked={stateCountry === "Deportiva" ? true : false}
-            onChange={(e) => handleFilterByActivity("Deportiva", e)}
+            name="Deportiva"
+            onChange={(e) =>
+              handleValueFilterByActivity(e, "checkDeportiva", "Deportiva")
+            }
           />
+          <label
+            htmlFor="checkDeportiva"
+            className="lbl_switch_checkBox"
+          ></label>
         </label>
         <label htmlFor="cultural">
           Cultural
           <input
-            className="inputRadio"
-            id="cultural"
-            type="radio"
-            name="activity"
+            className="checkBoxContinentValue"
+            type="checkbox"
+            id="checkCultural"
             value={"Cultural"}
-            checked={stateCountry === "Cultural" ? true : false}
-            onChange={(e) => handleFilterByActivity("Cultural", e)}
+            name="Cultural"
+            onChange={(e) =>
+              handleValueFilterByActivity(e, "checkCultural", "Cultural")
+            }
           />
+          <label
+            htmlFor="checkCultural"
+            className="lbl_switch_checkBox"
+          ></label>
         </label>
         <label htmlFor="gastronomica">
           Gastronomica
           <input
-            className="inputRadio"
-            id="gastronomica"
-            type="radio"
-            name="activity"
+            className="checkBoxContinentValue"
+            type="checkbox"
+            id="checkGastronomica"
             value={"Gastronomica"}
-            checked={stateCountry === "Gastronomica" ? true : false}
-            onChange={(e) => handleFilterByActivity("Gastronomica", e)}
+            name="Gastronomica"
+            onChange={(e) =>
+              handleValueFilterByActivity(
+                e,
+                "checkGastronomica",
+                "Gastronomica"
+              )
+            }
           />
+          <label
+            htmlFor="checkGastronomica"
+            className="lbl_switch_checkBox"
+          ></label>
         </label>
         <label htmlFor="solPlaya">
           Sol y Playa
           <input
-            className="inputRadio"
-            id="solPlaya"
-            type="radio"
-            name="activity"
+            className="checkBoxContinentValue"
+            type="checkbox"
+            id="checkSolyPlaya"
             value={"Sol y Playa"}
-            checked={stateCountry === "Sol y Playa" ? true : false}
-            onChange={(e) => handleFilterByActivity("Sol y Playa", e)}
+            name="Sol y Playa"
+            onChange={(e) =>
+              handleValueFilterByActivity(e, "checkSolyPlaya", "Sol y Playa")
+            }
           />
+          <label
+            htmlFor="checkSolyPlaya"
+            className="lbl_switch_checkBox"
+          ></label>
         </label>
         <label htmlFor="naturaleza">
           Naturaleza
           <input
-            className="inputRadio"
-            id="naturaleza"
-            type="radio"
-            name="activity"
+            className="checkBoxContinentValue"
+            type="checkbox"
+            id="checkNaturaleza"
             value={"Naturaleza"}
-            checked={stateCountry === "Naturaleza" ? true : false}
-            onChange={(e) => handleFilterByActivity("Naturaleza", e)}
+            name="Naturaleza"
+            onChange={(e) =>
+              handleValueFilterByActivity(e, "checkNaturaleza", "Naturaleza")
+            }
           />
+          <label
+            htmlFor="checkNaturaleza"
+            className="lbl_switch_checkBox"
+          ></label>
         </label>
         <label htmlFor="others">
-          Otros
+          Others
           <input
-            className="inputRadio"
-            id="others"
-            type="radio"
-            name="activity"
+            className="checkBoxContinentValue"
+            type="checkbox"
+            id="checkOtros"
             value={"Otros"}
-            checked={stateCountry === "Otros" ? true : false}
-            onChange={(e) => handleFilterByActivity("Otros", e)}
+            name="Otros"
+            onChange={(e) =>
+              handleValueFilterByActivity(e, "checkOtros", "Otros")
+            }
           />
+          <label htmlFor="checkOtros" className="lbl_switch_checkBox"></label>
         </label>
       </fieldset>
-      {/* ) : null} */}
       <fieldset>
         <legend>Order by Name</legend>
         <label htmlFor="radioOrderAsc">
-          ASC
+          Ascendant
           <input
             className="inputRadio"
             id="radioOrderAsc"
@@ -303,7 +350,7 @@ function FormFilter() {
           />
         </label>
         <label htmlFor="radioOrderDesc">
-          DESC
+          Descending
           <input
             className="inputRadio"
             id="radioOrderDesc"
@@ -316,9 +363,9 @@ function FormFilter() {
         </label>
       </fieldset>
       <fieldset>
-        <legend>Order popu</legend>
+        <legend>Order population</legend>
         <label htmlFor="radioOrderMen">
-          Mayor
+          Higher
           <input
             className="inputRadio"
             id="radioOrderMen"
@@ -330,7 +377,7 @@ function FormFilter() {
           />
         </label>
         <label htmlFor="radioOrderMay">
-          Menor
+          Lower
           <input
             className="inputRadio"
             id="radioOrderMay"

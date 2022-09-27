@@ -1,4 +1,4 @@
-import { Link, Redirect, Route, Switch } from "react-router-dom";
+import {  Route, Switch } from "react-router-dom";
 import "./App.css";
 import NotFound from "./components/404NotFound";
 import About from "./components/about";

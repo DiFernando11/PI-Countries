@@ -17,7 +17,7 @@ function Home() {
   const lastPostIndex = statePage * postsPerPage; // 9 //18
   const firstPostIndex = lastPostIndex - postsPerPage; //0 // 9
   const currentPosts = countries.slice(firstPostIndex, lastPostIndex);
-  console.log(currentPosts);
+
   return (
     <main className="main">
       <div className="container_main">
@@ -40,12 +40,12 @@ function Home() {
           </div>
         ) : (
           <div className="notExistedCountriesOrActivities">
-            <h3>No existen actividades o paises disponibles</h3>
-            <img className="nohaynada" src={giftNotCountries} />
-            {/* <img
+            <h3>No activities or countries available</h3>
+            <img
               className="nohaynada"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Paises_con_mayor%C3%ADa_cristiana.svg/4500px-Paises_con_mayor%C3%ADa_cristiana.svg.png"
-            /> */}
+              src={giftNotCountries}
+              alt="not countries"
+            />
           </div>
         )}
       </div>

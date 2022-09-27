@@ -17,9 +17,11 @@
     0 20px 20px rgba(0, 0, 0, 0.15);
 }
 .text_visted_page {
-
   font-size: 50px;
   text-align: center;
+}
+.text_visted_page i {
+  margin-left: 16px;
 }
 
 .error-container {
@@ -27,7 +29,7 @@
   font-size: 180px;
   font-family: "Catamaran", sans-serif;
   font-weight: 800;
-  line-height: 400px;
+  line-height: 300px;
 }
 .error-container > span {
   display: inline-block;

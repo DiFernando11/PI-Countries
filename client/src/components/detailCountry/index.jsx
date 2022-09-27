@@ -9,6 +9,7 @@ import {
 import { imageContinent } from "../../utils/util";
 import giftNotActivities from "../../assets/44165998-composizione-vettoriale-di-monumenti-famosi-di-fronte-a-un-cielo-soleggiato-con-un-aereo-e-palloni-.webp";
 import ActivityCard from "../activityCard";
+import giftLoading from "../../assets/_______.gif";
 
 import "./index.css";
 
@@ -20,11 +21,10 @@ function DetailCountry() {
   let stateRefreshUpdate = useSelector((state) => state.stateRefreshUpdate);
   //state locales
   const [cardFavoriteCurrent, setCardFavoriteCurrent] = useState(0);
-
   // hooks
   const lengthCardsFavorities = favoriteActivity?.length;
-  console.log(lengthCardsFavorities, "cars");
   const continentImg = imageContinent(detail);
+
   let dispatch = useDispatch();
   const { id } = useParams();
   useEffect(() => {
@@ -34,6 +34,7 @@ function DetailCountry() {
   useEffect(() => {
     dispatch(getActivities(id));
   }, [dispatch, stateRefreshUpdate, id]);
+
   useEffect(() => {
     dispatch(favoriteActivities());
   }, [dispatch, stateRefreshUpdate]);
@@ -52,7 +53,7 @@ function DetailCountry() {
         : cardFavoriteCurrent - 1
     );
   };
-  console.log(favoriteActivity);
+
   return (
     <main>
       <section>
@@ -64,7 +65,7 @@ function DetailCountry() {
               </figure>
 
               <div className="container_information_country">
-                {detail && (
+                {detail ? (
                   <ul>
                     <li>{detail.id}</li>
                     <li>
@@ -86,6 +87,10 @@ function DetailCountry() {
                       <img src={continentImg} alt={detail.id} />
                     </li>
                   </ul>
+                ) : (
+                  <div>
+                    <img src={giftLoading} alt="detail" />
+                  </div>
                 )}
               </div>
             </div>
@@ -125,7 +130,7 @@ function DetailCountry() {
                   ))
                 ) : (
                   <p className="text_not_favorites_activities">
-                    No tienes actividades Favoritas
+                    You have no favorite activities
                   </p>
                 )}
 
@@ -145,8 +150,13 @@ function DetailCountry() {
             {activities.length ? (
               <div className="container_Activities">
                 <div className="addActivities">
-                  <span>Agregar</span>
-                  <Link to={"/createActivity"}>
+                  <span>Add</span>
+                  <Link
+                    to={{
+                      pathname: "/createActivity",
+                      state: { name: detail },
+                    }}
+                  >
                     <i className="bi bi-plus-circle"></i>
                   </Link>
                 </div>
@@ -171,13 +181,18 @@ function DetailCountry() {
             ) : (
               <div className="containerNotActivities">
                 <div className="addActivities notActivitesAdd">
-                  <span>Agregar</span>
-                  <Link to={"/createActivity"}>
+                  <span>Add</span>
+                  <Link
+                    to={{
+                      pathname: "/createActivity",
+                      state: { name: detail },
+                    }}
+                  >
                     <i className="bi bi-plus-circle"></i>
                   </Link>
                 </div>
                 <div>
-                  <p>No hay actividades disponibles</p>
+                  <p>No activities availables</p>
                   <img src={giftNotActivities} alt="not activities" />
                 </div>
               </div>

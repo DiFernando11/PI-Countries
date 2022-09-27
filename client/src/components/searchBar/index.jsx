@@ -10,7 +10,6 @@ import "./index.css";
 function SearchBar() {
   const [country, setCountries] = useState("");
   let stateCountry = useSelector((state) => state.stateCountry);
-
   let dispatch = useDispatch();
   if (country.length === 0 && stateCountry === "All") {
     dispatch(getAllCountries(0));
@@ -24,18 +23,21 @@ function SearchBar() {
   const handleResetSearch = () => {
     dispatch(setStateCountry("All"));
   };
+  const blurInpuTextSearch = () => {
+    setCountries("");
+  };
   return (
     <form className="input_search_country">
-      
       <input
+        id="input_search_countries"
         type="text"
         placeholder="Country..."
         onClick={() => handleResetSearch()}
         onChange={(e) => handleSearchCountry(e)}
+        onBlur={() => blurInpuTextSearch()}
+        value={country}
         className="src"
-      >
-
-      </input >
+      ></input>
     </form>
   );
 }

@@ -1,4 +1,5 @@
 import axios from "axios";
+
 export const GET_ALL_COUNTRIES = "GET_ALL_COUNTRIES";
 export const GET_ALL_COUNTRIES_COPY = "GET_ALL_COUNTRIES_COPY ";
 export const GET_COUNTRY_DETAIL = "GET_COUNTRY_DETAIL";
@@ -63,10 +64,7 @@ export const getCountryDetail = (id) => {
 
 export const createPostActivity = (payload) => {
   return async function (dispatch) {
-    const response = await axios.post(
-      "/activity",
-      payload
-    );
+    const response = await axios.post("/activity", payload);
     return dispatch({
       type: CREATE_POST_ACTIVITY,
       payload: response.data,
@@ -141,23 +139,21 @@ export function getActivities(id) {
 
 export function deleteActivity(id, countryId) {
   return async function (dispatch) {
-    const response = await axios.delete(
-      `/activity/${id}`,
-      {
-        data: { countryId },
-      }
-    );
+    const response = await axios.delete(`/activity/${id}`, {
+      data: { countryId },
+    });
     return dispatch({
       type: DELETE_ACTIVITY,
-      payload: response,
+      payload: response.data,
     });
   };
 }
 export const updateActivity = (id, payload) => {
   return async (dispatch) => {
-    await axios.put(`/activity/${id}`, payload);
+    const response = await axios.put(`/activity/${id}`, payload);
     return dispatch({
       type: UPDATE_ACTIVITY,
+      payload: response.data,
     });
   };
 };
@@ -173,10 +169,7 @@ export const favoriteActivities = () => {
 };
 export const createFavoriteActivities = (payload) => {
   return async function (dispatch) {
-    const response = await axios.post(
-      "/favorites",
-      payload
-    );
+    const response = await axios.post("/favorites", payload);
     return dispatch({
       type: CREATE_FAVORITE_ACTIVITIES,
       payload: response.data,
@@ -213,43 +206,3 @@ export const updateCardFavorite = (id, payload) => {
     });
   };
 };
-
-// export const updateActivity = (id, payload) => {
-//   return async (dispatch) => {
-//     await axios.put(`http://localhost:3001/activity/${id}`, payload);
-//     return dispatch({
-//       type: UPDATE_ACTIVITY,
-//     });
-//   };
-// };
-
-// export function deleteActivity(id, countryId) {
-//   return async function (dispatch) {
-//     await axios.delete(`http://localhost:3001/activity/${id}`, {
-//       data: { countryId },
-//     });
-//     return dispatch({
-//       type: DELETE_ACTIVITY,
-//     });
-//   };
-// }
-// export const updateActivity = (id, payload) => {
-//   return async (dispatch) => {
-//     await axios.put(`http://localhost:3001/activity/${id}`, payload);
-//     return dispatch({
-//       type: UPDATE_ACTIVITY,
-//     });
-//   };
-// };
-// export const createPostActivity = (payload) => {
-//   return async function (dispatch) {
-//     const response = await axios.post(
-//       "http://localhost:3001/activity",
-//       payload
-//     );
-//     return dispatch({
-//       type: CREATE_POST_ACTIVITY,
-//       payload: response.data,
-//     });
-//   };
-// };

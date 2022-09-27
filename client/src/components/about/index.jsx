@@ -31,21 +31,6 @@ function About() {
           Thank you very much for visiting the application, created by Diego
           Apolo.
         </p>
-        {/* <p className="text_about_presentation">
-          
-        </p>
-        <p className="text_about_presentation">
-          Detail section: Details of the country visited, country activities,
-          favorite activities section, complete crud.
-        </p>
-        <p className="text_about_presentation">
-          Create activity section: Controlled form, which allows the creation of
-          new activities for the countries you choose.
-        </p>
-        <p className="text_about_presentation">
-          Thank you very much for visiting the application, created by Diego
-          Apolo.
-        </p> */}
         <h3>SKILLS</h3>
         <p className="text_about_skills">
           I have a wide range of skills that I am constantly expanding.

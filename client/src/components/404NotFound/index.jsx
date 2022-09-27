@@ -1,17 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./index.css";
-import page404 from "../../assets/descarga-removebg-preview.png";
+
 
 function NotFound() {
   return (
     <section className="container_page_notFound">
       <h1>PAGE NOT FOUND</h1>
-      <Link to={"/"}>
+      <Link to={"/"} style={{ textDecoration: 'none' }}>
         <div>
           <p className="text_visted_page">
-            Disfruta de tus paises favoritos aqui<i class="bi bi-house"></i>
+          Enjoy your favorite countries here   <i className="bi bi-house"></i>
           </p>
+        
         </div>
       </Link>
       <section>

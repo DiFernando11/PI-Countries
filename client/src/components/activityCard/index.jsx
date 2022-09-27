@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createFavoriteActivities,
   deleteActivity,
   deleteFavority,
-  favoriteActivities,
   isFavoriteActivity,
   setRefreshUpdate,
   updateActivity,
@@ -14,6 +13,7 @@ import CreateActivity from "../createActivity";
 import Modal from "../modal";
 import giftDeleteActivity from "../../assets/deleteactivity.gif";
 import "./index.css";
+import imgSuccesfullPost from "../../assets/c6842479-e0ee-49a2-9053-d00639074f7a_tick.gif";
 
 function ActivityCard({
   id,
@@ -31,17 +31,20 @@ function ActivityCard({
   //ESTADOS LOCALES
   const [modalVisibleDelete, setModalVisibleDelete] = useState(false);
   const [modalVisibleUpdate, setModalVisibleUpdate] = useState(false);
+  const [modalVisibleUpdateResponse, setModalVisibleUpdateResponse] =
+    useState(false);
   const [modalVisibleResponseDelete, setModalVisibleResponseDelete] =
     useState(false);
+
   //ESTADOS GLOBALES
-  const stateRefreshUpdate = useSelector((state) => state.stateRefreshUpdate);
   const responseCreateActivity = useSelector(
     (state) => state.responseCreateActivity
   );
-  console.log(responseCreateActivity);
+  const favoriteActivity = useSelector((state) => state.favoriteActivity);
+
   //HOOKS
   let dispatch = useDispatch();
-  console.log(stateRefreshUpdate);
+
   //HANDLERS
   const openModalUpdate = () => {
     setModalVisibleUpdate(!modalVisibleUpdate);
@@ -50,17 +53,28 @@ function ActivityCard({
   const openModalDelete = () => {
     setModalVisibleDelete(!modalVisibleDelete);
     dispatch(setRefreshUpdate());
-    setModalVisibleResponseDelete(true);
+    // setModalVisibleResponseDelete(true);
   };
   const openModalResponseDelete = () => {
     setModalVisibleResponseDelete(false);
     dispatch(setRefreshUpdate());
   };
+  const openModalResponseUpdate = () => {
+    setModalVisibleUpdateResponse(false);
+    dispatch(setRefreshUpdate());
+  };
   const handleDeleteActivity = () => {
     dispatch(deleteActivity(id, countryId));
-    dispatch(deleteFavority(id));
+    if (
+      favoriteActivity.some(
+        (activity) => parseInt(activity.id) === parseInt(id)
+      )
+    ) {
+      dispatch(deleteFavority(id));
+    }
     dispatch(setRefreshUpdate());
     setModalVisibleDelete(false);
+    setModalVisibleResponseDelete(true);
   };
   const handleUpdateActivity = (e, input) => {
     e.preventDefault();
@@ -68,6 +82,7 @@ function ActivityCard({
     dispatch(setRefreshUpdate());
     dispatch(updateCardFavorite(id, input));
     setModalVisibleUpdate(false);
+    setModalVisibleUpdateResponse(true);
   };
 
   const handleAddFavorite = () => {
@@ -94,7 +109,7 @@ function ActivityCard({
   };
 
   return (
-    <div>
+    <div className="pruebita">
       <div className="container_activity">
         <i
           onClick={openModalDelete}
@@ -150,14 +165,19 @@ function ActivityCard({
           ></i>
         </button>
       </div>
-      {modalVisibleResponseDelete ? (
-        <Modal title={"Succesfull"}>
-          {responseCreateActivity.data}
-          <button className="button_accepted" onClick={openModalResponseDelete}>
+      {modalVisibleUpdateResponse ? (
+        <Modal>
+          <div className="containerSuccesfullModal">
+            <p className="modal_text_verificated">{responseCreateActivity}</p>
+            <img src={imgSuccesfullPost} alt="response update" />
+          </div>
+
+          <button className="button_accepted" onClick={openModalResponseUpdate}>
             Aceptar
           </button>
         </Modal>
       ) : null}
+
       {modalVisibleUpdate ? (
         <Modal
           title={"Modificar"}
@@ -173,10 +193,24 @@ function ActivityCard({
               season,
               typeActivity,
             }}
+            // state={{ state: { name: false } }}
             handleUpdateActivity={handleUpdateActivity}
           />
           <button className="button_accepted" onClick={openModalUpdate}>
             Cancelar
+          </button>
+        </Modal>
+      ) : null}
+
+      {modalVisibleResponseDelete ? (
+        <Modal title={"Succesfull"}>
+          <div className="containerSuccesfullModal">
+            <p className="modal_text_verificated">{responseCreateActivity}</p>
+            <img src={imgSuccesfullPost} alt="response delete" />
+          </div>
+
+          <button className="button_accepted" onClick={openModalResponseDelete}>
+            Aceptar
           </button>
         </Modal>
       ) : null}

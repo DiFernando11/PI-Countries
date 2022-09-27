@@ -188,7 +188,7 @@ module.exports = {
       season: season,
       typeActivity: typeActivity,
     });
-    return "Successfully modified";
+    return "the activity has been successfully modified";
   },
   updateIsFavorite: async (id, country) => {
     if (!id) throw "Faltan parametros";

@@ -35,19 +35,19 @@ export function imageContinent(detail) {
 export function validate(input) {
   let errors = {};
   if (input.name.length < 3) {
-    errors.name = "Ingrese un nombre valido";
+    errors.name = "Enter a valid name";
   }
   if (!/^[a-zñA-Z]+[a-zñA-Z\s]+[a-zñA-Z]$/.test(input.name)) {
-    errors.name = "El nombre debe contener solo letras";
+    errors.name = "The name must contain only letters";
   }
   if (!/[1-5]/.test(input.difficult) || input.difficult.length > 1) {
-    errors.difficult = "ERoor is required";
+    errors.difficult = "The maximum range is 1-5";
   }
   if (!/^([0-1]?[0-9]|[2][0-4])?$/.test(input.duration)) {
-    errors.duration = "valor a ingresar maximo hasta 24 horas";
+    errors.duration = "value to enter maximum up to 24 hours";
   }
   if (!input.country.length) {
-    errors.country = "Ingresa al menos un pais para crear la actividad";
+    errors.country = "Enter at least one country to create the activity";
   }
   return errors;
 }
@@ -97,13 +97,20 @@ export const filterByContinentsCountry = (array, continent) => {
   else return array.filter((country) => continent.includes(country.continent));
 };
 export const filterByActividadCountries = (array, activity, continent) => {
+  if (!activity.length && !continent.length) {
+    return array;
+  }
+  if (!activity.length) {
+    return array.filter((country) => continent.includes(country.continent));
+  }
+
   if (continent.length) {
     return array.filter(
       (country) =>
         country.activities &&
         country.activities
           .map((activity) => activity.typeActivity)
-          .includes(activity) &&
+          .some((e) => activity.includes(e)) &&
         continent.includes(country.continent)
     );
   }
@@ -112,7 +119,7 @@ export const filterByActividadCountries = (array, activity, continent) => {
       country.activities &&
       country.activities
         .map((activity) => activity.typeActivity)
-        .includes(activity)
+        .some((e) => activity.includes(e))
   );
 };
 export const searchCountry = (name, arr) => {

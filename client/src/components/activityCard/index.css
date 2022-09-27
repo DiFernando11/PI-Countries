@@ -6,6 +6,14 @@
   color: rgb(193, 62, 62);
   cursor: pointer;
 }
+.grid_text .grid__title--transform
+{
+  margin-left: 20px;
+}
+.grid_text p {
+  margin-left: 12px;
+  font-size: 12px;
+}
 .update_card_activity {
   position: absolute;
   bottom: 0;

@@ -4,12 +4,13 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const routes = require("./routes/index.js");
 
-
 require("./db.js");
+const cors = require("cors");
 
 const server = express();
 
 server.name = "API";
+server.use(cors());
 //bodyParser esta deprecado podemos cambiarlo a express
 server.use(express.urlencoded({ extended: true, limit: "50mb" }));
 server.use(express.json({ limit: "50mb" }));

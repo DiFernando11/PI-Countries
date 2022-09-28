@@ -15,6 +15,8 @@ function FormFilter() {
   // //estados globales
   //stado que controlado el button Todos
   let stateCountry = useSelector((state) => state.stateCountry);
+  let statePages = useSelector((state) => state.statePage);
+  console.log(statePages);
   //estados locales
   //stado que controla el radio button de ordenamientos
   const [stateRadio, setStateRadio] = useState("All");
@@ -57,6 +59,7 @@ function FormFilter() {
     // dispatch(setStateCountry("default"));
     setStateRadio("default");
     dispatch(setStateCountry("All"));
+    dispatch(statePage(1));
   };
   const handleInputByActiviyt = (e) => {
     e.preventDefault();
@@ -107,6 +110,7 @@ function FormFilter() {
     }
     dispatch(setStateCountry("All"));
     setStateRadio("default");
+    dispatch(statePage(1));
   };
 
   const resetValueCheckBox = () => {

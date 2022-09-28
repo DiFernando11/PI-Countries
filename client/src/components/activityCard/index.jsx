@@ -71,6 +71,7 @@ function ActivityCard({
       )
     ) {
       dispatch(deleteFavority(id));
+      setCardFavoriteCurrent(0);
     }
     dispatch(setRefreshUpdate());
     setModalVisibleDelete(false);

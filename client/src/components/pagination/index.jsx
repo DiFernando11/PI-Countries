@@ -13,6 +13,7 @@ function Pagination() {
   for (let index = 1; index <= Math.ceil(totalPosts / 9); index++) {
     pages.push(index);
   }
+
   return (
     <div className="container_button_page">
       {pages &&

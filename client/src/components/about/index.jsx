@@ -20,16 +20,7 @@ function About() {
           Individual project presented for soy Henrry, worked with technologies
           such as REACT, REDUX, NODEJS, EXPRESS, SEQUELIZE, POSTGRESSQL, created
           with a lot of dedication and many hours of practice, the application
-          contains:
-          Home section: filters by continent and by activity, sorting by both
-          name and population, search by country name, in English and Spanish,
-          besides being able to search by the name of a specific activity.
-          Detail section: Details of the country visited, country activities,
-          favorite activities section, complete crud.
-          Create activity section: Controlled form, which allows the creation of
-          new activities for the countries you choose.
-          Thank you very much for visiting the application, created by Diego
-          Apolo.
+          contains.
         </p>
         <h3>SKILLS</h3>
         <p className="text_about_skills">

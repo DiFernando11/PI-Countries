@@ -1,6 +1,7 @@
 .displey_center {
-  width: 300px;
+  width: 250px;
 }
+
 .container_cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));

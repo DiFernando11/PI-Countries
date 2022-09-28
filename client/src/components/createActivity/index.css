@@ -35,10 +35,11 @@
   border-radius: 1000px;
   box-shadow: 12px 12px 24px rgba(83, 55, 107, 0.64);
   transition: all 0.3s ease-in-out 0s;
-  cursor: pointer;
   outline: none;
   position: relative;
   padding: 10px;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .activated_button_createActivity::after {
@@ -62,6 +63,7 @@
 
 .form_create_activity .activated_button_createActivity {
   cursor: pointer;
+  pointer-events: all;
 }
 .main_create_activity {
   background-repeat: no-repeat;

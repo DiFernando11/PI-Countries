@@ -46,9 +46,10 @@ function CreateActivity({
     duration: initialState.duration,
     season: initialState.season,
     typeActivity: initialState.typeActivity,
-    country: [],
+    country: !countryNameSelect ? [] : [countryNameSelect],
   });
-
+  console.log(input.country, "countri");
+  // console.log(errors);
   // hago una copia de los paises sin mutar los paises originales
   const copyArrayCountries = [...copyCountries];
   //hooks
@@ -117,6 +118,8 @@ function CreateActivity({
     setModalVisible(false);
     dispatch(setRefreshUpdate());
   };
+
+  if (!desactivatedFormSearchCountries) delete errors.country;
 
   return (
     <main
@@ -325,13 +328,19 @@ function CreateActivity({
                   type="submit"
                   className={`
                   buttonSubmitActivity
-                   ${
-                     desactivatedFormSearchCountries
-                       ? !Object.entries(errors).length && selectCountry.length
-                         ? "activated_button_createActivity"
-                         : "descativated_button_createActivity"
-                       : "activated_button_createActivity"
-                   }`}
+                  ${
+                    !desactivatedFormSearchCountries
+                      ? !Object.entries(errors).length &&
+                        input.name !== "" &&
+                        "activated_button_createActivity"
+                      : selectCountry.length &&
+                        !Object.entries(errors).length &&
+                        input.name !== "" &&
+                        "activated_button_createActivity"
+                  }
+       
+                  
+                  `}
                 >
                   {desactivatedFormSearchCountries
                     ? "Create Activity"

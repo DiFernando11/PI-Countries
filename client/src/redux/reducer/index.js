@@ -16,12 +16,17 @@ import {
   REFRESH_STATE,
   GET_ALL_ACTIVITIES,
   IS_FAVORITE_ACTIVITY,
+  // GET_ALL_ACTIVITIES_BY_COUNTRIES,
+  // PRUEBA_ACTIVITY,
+
 } from "../actions";
 import {
   filterByActividadCountries,
   filterByContinentsCountry,
+  orderByArea,
   orderCountries,
   orderCountriesByPopulation,
+  pruebaActivity,
   searchCountry,
   searchCountryByActivity,
 } from "../../utils/util";
@@ -36,6 +41,7 @@ const initialState = {
   stateCountry: "All",
   statePage: 1,
   stateRefreshUpdate: false,
+  activitiesAll: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -54,6 +60,12 @@ const rootReducer = (state = initialState, action) => {
         countryDetail: action.payload,
       };
     }
+    case GET_ALL_ACTIVITIES: {
+      return {
+        ...state,
+        activities: action.payload,
+      };
+    }
     case CREATE_POST_ACTIVITY: {
       return {
         ...state,
@@ -69,13 +81,13 @@ const rootReducer = (state = initialState, action) => {
     case UPDATE_ACTIVITY: {
       return {
         ...state,
-         responseCreateActivity: action.payload,
+        responseCreateActivity: action.payload,
       };
     }
-    case GET_ALL_ACTIVITIES: {
+    case FAVORITE_ACTIVITIES: {
       return {
         ...state,
-        activities: action.payload,
+        favoriteActivity: action.payload,
       };
     }
     case IS_FAVORITE_ACTIVITY: {
@@ -128,12 +140,6 @@ const rootReducer = (state = initialState, action) => {
         countries: searchCountryByActivity(action.payload, state.copyCountries),
       };
     }
-    case FAVORITE_ACTIVITIES: {
-      return {
-        ...state,
-        favoriteActivity: action.payload,
-      };
-    }
 
     case STATE_COUNTRY: {
       return {
@@ -153,6 +159,19 @@ const rootReducer = (state = initialState, action) => {
         stateRefreshUpdate: !state.stateRefreshUpdate,
       };
     }
+
+    // case GET_ALL_ACTIVITIES_BY_COUNTRIES: {
+    //   return {
+    //     ...state,
+    //     activitiesAll: action.payload,
+    //   };
+    // }
+    // case PRUEBA_ACTIVITY: {
+    //   return {
+    //     ...state,
+    //     countries: pruebaActivity(state.copyCountries, action.payload),
+    //   };
+    // }
     default:
       return state;
   }

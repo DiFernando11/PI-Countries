@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  // allActivitiesByCountries,
   filterByContinent,
   filterCountriesByActivity,
+  // pruebaActivities,
   searchCountriesByActivities,
   setStateCountry,
   sortByNameCountries,
@@ -120,6 +122,16 @@ function FormFilter() {
     }
   };
 
+  // useEffect(() => {
+  //   dispatch(allActivitiesByCountries());
+  // }, []);
+
+  // let activitiesAll = useSelector((state) => state.activitiesAll);
+  // // console.log(filterActivity, "activity");
+  // function filterActivitiesAllPrueb(e) {
+  //   dispatch(pruebaActivities(e.target.value));
+  // }
+
   return (
     <form className="container_form_filter">
       <label
@@ -153,6 +165,22 @@ function FormFilter() {
           onChange={(e) => handlerGetCountries(e)}
         />
       </label>
+
+      {/* 
+      <select name="activity" onChange={filterActivitiesAllPrueb}>
+        <option defaultValue value={"All"}>
+          All
+        </option>
+
+        {activitiesAll.length
+          ? activitiesAll.map((activity) => (
+              <option key={activity.id} value={activity.name}>
+                {activity.name}
+              </option>
+            ))
+          : null}
+      </select> */}
+
       <fieldset>
         <legend>Continent</legend>
         <label htmlFor="continentAmerica">

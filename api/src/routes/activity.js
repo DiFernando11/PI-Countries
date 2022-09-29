@@ -9,6 +9,7 @@ const {
   createActivity,
   deleteActivity,
   updateActivity,
+  listAllActivites,
 } = require("../Controllers/controllers");
 // const { route } = require("express/lib/application");
 const diskstorage = multer.diskStorage({
@@ -30,6 +31,13 @@ router.get("/:id", async (req, res) => {
     res.status(404).send(error);
   }
 });
+// router.get("/", async (req, res) => {
+//   try {
+//     res.json(await listAllActivites());
+//   } catch (error) {
+//     res.status(404).send(error);
+//   }
+// });
 
 router.post("/", async (req, res) => {
   const { name, difficult, duration, season, country, typeActivity } = req.body;
@@ -72,6 +80,6 @@ router.put("/:id", async (req, res) => {
 
 router.post("/images", fileUpload, (req, res) => {
   console.log(req.file);
-  res.send("image saved!")
+  res.send("image saved!");
 });
 module.exports = router;

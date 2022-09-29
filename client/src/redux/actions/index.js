@@ -21,27 +21,11 @@ export const DELETE_FAVORITE_ACTIVITY = "DELETE_FAVORITE_ACTIVITY";
 export const UPDATE_CARD_FAVORITE = "UPDATE_CARD_FAVORITE";
 export const STATE_PAGE = "STATE_PAGE";
 export const REFRESH_STATE = "REFRESH_STATE ";
+// export const GET_ALL_ACTIVITIES_BY_COUNTRIES = "ALL_ACTIVITIES_BY_COUNTRIES";
+// export const PRUEBA_ACTIVITY = "PRUEBA_ACTIVITY";
 
-// export const getAllCountries = (page) => {
-//   return async (dispatch) => {
-//     const response = await axios.get(
-//       `http://localhost:3001/countries?page=${page}`
-//     );
-//     return dispatch({
-//       type: GET_ALL_COUNTRIES,
-//       payload: response.data,
-//     });
-//   };
-// };
-// export const getAllCountriesCopy = () => {
-//   return async (dispatch) => {
-//     const response = await axios.get(`http://localhost:3001/countries`);
-//     return dispatch({
-//       type: GET_ALL_COUNTRIES_COPY,
-//       payload: response.data,
-//     });
-//   };
-// };
+
+
 export const getAllCountries = () => {
   return async (dispatch) => {
     const response = await axios.get(`/countries`);
@@ -62,71 +46,6 @@ export const getCountryDetail = (id) => {
   };
 };
 
-export const createPostActivity = (payload) => {
-  return async function (dispatch) {
-    const response = await axios.post("/activity", payload);
-    return dispatch({
-      type: CREATE_POST_ACTIVITY,
-      payload: response.data,
-    });
-  };
-};
-
-export const sortByNameCountries = (payload) => {
-  return {
-    type: SORT_BY_NAME_COUNTRIES,
-    payload,
-  };
-};
-export const filterByContinent = (payload) => {
-  return {
-    type: FILTER_BY_CONTINENT,
-    payload: payload,
-  };
-};
-export const sortByPopulation = (payload) => {
-  return {
-    type: SORT_BY_POPULATION,
-    payload,
-  };
-};
-
-export const filterCountriesByActivity = (payload, continent) => {
-  return {
-    type: FILTER_COUNTRIES_BY_ACTIVITY,
-    payload,
-    continent,
-  };
-};
-export const searchCountries = (payload) => {
-  return {
-    type: SEARCH_COUNTRIES,
-    payload,
-  };
-};
-export const searchCountriesByActivities = (payload) => {
-  return {
-    type: SEARCH_COUNTRIES_BY_ACTIVITY,
-    payload,
-  };
-};
-export const setStateCountry = (payload) => {
-  return {
-    type: STATE_COUNTRY,
-    payload,
-  };
-};
-export const statePage = (payload) => {
-  return {
-    type: STATE_PAGE,
-    payload,
-  };
-};
-export const setRefreshUpdate = () => {
-  return {
-    type: REFRESH_STATE,
-  };
-};
 export function getActivities(id) {
   return async function (dispatch) {
     const response = await axios.get(`/activity/${id}`);
@@ -136,6 +55,16 @@ export function getActivities(id) {
     });
   };
 }
+
+export const createPostActivity = (payload) => {
+  return async function (dispatch) {
+    const response = await axios.post("/activity", payload);
+    return dispatch({
+      type: CREATE_POST_ACTIVITY,
+      payload: response.data,
+    });
+  };
+};
 
 export function deleteActivity(id, countryId) {
   return async function (dispatch) {
@@ -177,18 +106,6 @@ export const createFavoriteActivities = (payload) => {
   };
 };
 
-export const isFavoriteActivity = (id, idCountry) => {
-  return async (dispatch) => {
-    const response = await axios.put(
-      `/favorites/activity/${id}?country=${idCountry}`
-    );
-    return dispatch({
-      type: IS_FAVORITE_ACTIVITY,
-      payload: response.data,
-    });
-  };
-};
-
 export const deleteFavority = (id) => {
   return async function (dispatch) {
     await axios.delete(`/favorites/activity/${id}`);
@@ -206,3 +123,89 @@ export const updateCardFavorite = (id, payload) => {
     });
   };
 };
+
+export const isFavoriteActivity = (id, idCountry) => {
+  return async (dispatch) => {
+    const response = await axios.put(
+      `/favorites/activity/${id}?country=${idCountry}`
+    );
+    return dispatch({
+      type: IS_FAVORITE_ACTIVITY,
+      payload: response.data,
+    });
+  };
+};
+
+export const sortByNameCountries = (payload) => {
+  return {
+    type: SORT_BY_NAME_COUNTRIES,
+    payload,
+  };
+};
+export const sortByPopulation = (payload) => {
+  return {
+    type: SORT_BY_POPULATION,
+    payload,
+  };
+};
+export const filterByContinent = (payload) => {
+  return {
+    type: FILTER_BY_CONTINENT,
+    payload: payload,
+  };
+};
+
+export const filterCountriesByActivity = (payload, continent) => {
+  return {
+    type: FILTER_COUNTRIES_BY_ACTIVITY,
+    payload,
+    continent,
+  };
+};
+export const searchCountries = (payload) => {
+  return {
+    type: SEARCH_COUNTRIES,
+    payload,
+  };
+};
+export const searchCountriesByActivities = (payload) => {
+  return {
+    type: SEARCH_COUNTRIES_BY_ACTIVITY,
+    payload,
+  };
+};
+export const setStateCountry = (payload) => {
+  return {
+    type: STATE_COUNTRY,
+    payload,
+  };
+};
+export const statePage = (payload) => {
+  return {
+    type: STATE_PAGE,
+    payload,
+  };
+};
+export const setRefreshUpdate = () => {
+  return {
+    type: REFRESH_STATE,
+  };
+};
+
+
+// export const allActivitiesByCountries = () => {
+//   return async (dispatch) => {
+//     const response = await axios.get("/activity/");
+//     return dispatch({
+//       type: GET_ALL_ACTIVITIES_BY_COUNTRIES,
+//       payload: response.data,
+//     });
+//   };
+// };
+
+// export const pruebaActivities = (activity) => {
+//   return {
+//     type: PRUEBA_ACTIVITY,
+//     payload: activity,
+//   };
+// };

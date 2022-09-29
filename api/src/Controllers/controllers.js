@@ -52,13 +52,15 @@ module.exports = {
     if (!searchCountryByID) throw `${id} Doesnt Exist`;
     return searchCountryByID;
   },
+  listAllActivites: async () => {
+    const getAllActivities = await Activity.findAll({
+      include: {
+        model: Country,
+      },
+    });
+    return getAllActivities;
+  },
   listActivities: async (idCountry) => {
-    // const getAllActivities = await Activity.findAll({
-    //   include: {
-    //     model: Country,
-    //   },
-    // });
-    // return getAllActivities;
     const id = idCountry.toUpperCase();
     const searchCountryByID = await Country.findByPk(id, {
       include: Activity,
@@ -72,7 +74,7 @@ module.exports = {
     duration,
     season,
     country,
-    typeActivity,
+    typeActivity
   ) => {
     if (
       !name ||

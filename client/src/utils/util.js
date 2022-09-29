@@ -146,3 +146,12 @@ export const searchCountryByActivity = (name, arr) => {
       );
   }
 };
+
+// export const pruebaActivity = (array, activity) => {
+//   if (activity === "All") return array;
+//   return array.filter(
+//     (country) =>
+//       country.activities &&
+//       country.activities.map((activitys) => activitys.name).includes(activity)
+//   );
+// };

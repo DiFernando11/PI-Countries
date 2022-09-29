@@ -11,6 +11,9 @@ const server = express();
 
 server.name = "API";
 server.use(cors());
+var distDir = __dirname + "/dist/";
+
+app.use(express.static(distDir));
 //bodyParser esta deprecado podemos cambiarlo a express
 server.use(express.urlencoded({ extended: true, limit: "50mb" }));
 server.use(express.json({ limit: "50mb" }));

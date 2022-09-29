@@ -7,30 +7,6 @@ const {
   findCountryByID,
 } = require("../Controllers/controllers");
 
-// router.get("/continent", async (req, res) => {
-//   const { continent, page = 0 } = req.query;
-//   try {
-//     res.json(await filterByContinents(continent, page));
-//   } catch (error) {
-//     res.send(error);
-//   }
-// });
-// router.get("/order/continent", async (req, res) => {
-//   const { continent, order, page } = req.query;
-//   try {
-//     res.json(await sortByAlphabeticalOrderByContinent(continent, order, page));
-//   } catch (error) {
-//     res.send(error);
-//   }
-// });
-// router.get("/order", async (req, res) => {
-//   const { order = "ASC", page } = req.query;
-//   try {
-//     res.json(await sortByAlphabeticalOrder(order, page));
-//   } catch (error) {
-//     res.send(error);
-//   }
-// });
 
 router.get("/", async (req, res) => {
   const { name } = req.query;

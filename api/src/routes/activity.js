@@ -78,8 +78,8 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.post("/images", fileUpload, (req, res) => {
-  console.log(req.file);
-  res.send("image saved!");
-});
+// router.post("/images", fileUpload, (req, res) => {
+//   console.log(req.file);
+//   res.send("image saved!");
+// });
 module.exports = router;

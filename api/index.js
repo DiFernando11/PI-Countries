@@ -23,7 +23,7 @@ const { informationApiToDB } = require("./src/Controllers/util");
 
 // Syncing all the models at once.
 conn.sync({ force: false }).then(() => {
-  server.listen(process.env.PORT || 3001, () => {
+  server.listen(process.env.PORT , () => {
     console.log("%s listening at 3001", process.env.PORT); // eslint-disable-line no-console
     //  informationApiToDB();
   });

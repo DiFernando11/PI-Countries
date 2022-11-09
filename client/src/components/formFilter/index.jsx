@@ -4,8 +4,11 @@ import {
   // allActivitiesByCountries,
   filterByContinent,
   filterCountriesByActivity,
+  orderByAreaCountries,
   // pruebaActivities,
   searchCountriesByActivities,
+  setLoadingCountries,
+  setRefreshUpdate,
   setStateCountry,
   sortByNameCountries,
   sortByPopulation,
@@ -17,8 +20,7 @@ function FormFilter() {
   // //estados globales
   //stado que controlado el button Todos
   let stateCountry = useSelector((state) => state.stateCountry);
-  let statePages = useSelector((state) => state.statePage);
-  console.log(statePages);
+
   //estados locales
   //stado que controla el radio button de ordenamientos
   const [stateRadio, setStateRadio] = useState("All");
@@ -29,7 +31,6 @@ function FormFilter() {
   //hooks
   let dispatch = useDispatch();
   // HANLDERS
-
   const handleSortByName = (order, e) => {
     dispatch(sortByNameCountries(order));
     setStateRadio(e.target.value);
@@ -43,6 +44,8 @@ function FormFilter() {
   const handleValueFilterByActivity = (e, idCheckbox, activity) => {
     const isChecked = document.getElementById(idCheckbox).checked;
     if (isChecked) {
+      dispatch(setLoadingCountries());
+      dispatch(setRefreshUpdate());
       setCheckboxActivity((prev) => [...prev, e.target.value]);
       dispatch(
         filterCountriesByActivity(
@@ -86,6 +89,7 @@ function FormFilter() {
   const handleValueChange = (e, idCheckbox, continent) => {
     var isChecked = document.getElementById(idCheckbox).checked;
     if (isChecked) {
+      dispatch(setLoadingCountries());
       setCheckBoxContinent((prev) => [...prev, e.target.value]);
       if (!checkBoxActivity.length) {
         dispatch(filterByContinent([...checkBoxContinent, continent]));
@@ -120,6 +124,9 @@ function FormFilter() {
     for (let index = 0; index < refere.length; index++) {
       refere[index].checked = false;
     }
+  };
+  const handleOrderArea = (e) => {
+    dispatch(orderByAreaCountries(e.target.value));
   };
 
   // useEffect(() => {
@@ -165,7 +172,14 @@ function FormFilter() {
           onChange={(e) => handlerGetCountries(e)}
         />
       </label>
-
+      {/* 
+      <select onChange={handleOrderArea}>
+        <option value="All" defaultValue>
+          All
+        </option>
+        <option value="Higher">Higher</option>
+        <option value="Lower">Lower</option>
+      </select> */}
       {/* 
       <select name="activity" onChange={filterActivitiesAllPrueb}>
         <option defaultValue value={"All"}>

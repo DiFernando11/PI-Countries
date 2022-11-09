@@ -5,6 +5,13 @@ import imgAfrica from "../assets/africa.png";
 import imgAntartica from "../assets//antartica.png";
 import imgOceania from "../assets/oceania.png";
 import imgDefault from "../assets/oceania.png";
+import { Switch } from "react-router-dom";
+export function addthousandsseparators(number) {
+  let partsNumber = number.split(".");
+  partsNumber[0] = partsNumber[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return partsNumber.join(".");
+}
+
 export function imageContinent(detail) {
   let continentImg = "";
   switch (detail.continent) {
@@ -43,7 +50,10 @@ export function validate(input) {
   if (!/[1-5]/.test(input.difficult) || input.difficult.length > 1) {
     errors.difficult = "The maximum range is 1-5";
   }
-  if (!/^([0-1]?[0-9]|[2][0-4])?$/.test(input.duration)) {
+  if (!input.duration) {
+    errors.duration = "value to enter maximum up to 24 hours";
+  }
+  if (!/^([0-1]?[1-9]|[2][0-4])?$/.test(input.duration)) {
     errors.duration = "value to enter maximum up to 24 hours";
   }
   if (!input.country.length) {
@@ -144,6 +154,27 @@ export const searchCountryByActivity = (name, arr) => {
           .map((activity) => activity.name.toLowerCase())
           .includes(name.toString().toLowerCase())
       );
+  }
+};
+
+export const orderByAreaCountry = (array, order) => {
+  switch (order) {
+    case "Higher":
+      return [
+        ...array.sort(
+          (current, nextCurrent) => current.area - nextCurrent.area
+        ),
+      ];
+
+    case "Lower":
+      return [
+        ...array.sort(
+          (current, nextCurrent) => nextCurrent.area - current.area
+        ),
+      ];
+
+    default:
+      return array;
   }
 };
 

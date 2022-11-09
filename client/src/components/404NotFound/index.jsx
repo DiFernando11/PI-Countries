@@ -7,7 +7,7 @@ function NotFound() {
   return (
     <section className="container_page_notFound">
       <h1>PAGE NOT FOUND</h1>
-      <Link to={"/"} style={{ textDecoration: 'none' }}>
+      <Link to={"/home"} style={{ textDecoration: 'none' }}>
         <div>
           <p className="text_visted_page">
           Enjoy your favorite countries here   <i className="bi bi-house"></i>

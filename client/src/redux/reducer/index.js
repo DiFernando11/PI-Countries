@@ -16,17 +16,17 @@ import {
   REFRESH_STATE,
   GET_ALL_ACTIVITIES,
   IS_FAVORITE_ACTIVITY,
+  ORDER_AREA,
+  LOADING_COUNTRIES,
   // GET_ALL_ACTIVITIES_BY_COUNTRIES,
   // PRUEBA_ACTIVITY,
-
 } from "../actions";
 import {
   filterByActividadCountries,
   filterByContinentsCountry,
-  orderByArea,
+  orderByAreaCountry,
   orderCountries,
   orderCountriesByPopulation,
-  pruebaActivity,
   searchCountry,
   searchCountryByActivity,
 } from "../../utils/util";
@@ -42,6 +42,7 @@ const initialState = {
   statePage: 1,
   stateRefreshUpdate: false,
   activitiesAll: [],
+  loadingCountries: false,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -51,6 +52,7 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         countries: action.payload,
         copyCountries: action.payload,
+        countryDetail: {},
       };
     }
 
@@ -157,6 +159,18 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         stateRefreshUpdate: !state.stateRefreshUpdate,
+      };
+    }
+    case LOADING_COUNTRIES: {
+      return {
+        ...state,
+        loadingCountries: true,
+      };
+    }
+    case ORDER_AREA: {
+      return {
+        ...state,
+        countries: orderByAreaCountry(state.copyCountries, action.payload),
       };
     }
 

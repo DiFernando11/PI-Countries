@@ -6,7 +6,7 @@ import {
   getActivities,
   getCountryDetail,
 } from "../../redux/actions";
-import { imageContinent } from "../../utils/util";
+import { addthousandsseparators, imageContinent } from "../../utils/util";
 import giftNotActivities from "../../assets/44165998-composizione-vettoriale-di-monumenti-famosi-di-fronte-a-un-cielo-soleggiato-con-un-aereo-e-palloni-.webp";
 import ActivityCard from "../activityCard";
 import giftLoading from "../../assets/_______.gif";
@@ -76,11 +76,11 @@ function DetailCountry() {
                     </li>
                     <li>
                       <b>area: </b>
-                      {detail.area} KM²
+                      {addthousandsseparators(detail.area + "")} KM²
                     </li>
                     <li>
                       <b>Population: </b>
-                      {detail.population}
+                      {addthousandsseparators(detail.population + "")}
                     </li>
                     <li>{detail.continent}</li>
                     <li>

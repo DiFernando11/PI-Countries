@@ -13,6 +13,7 @@ module.exports = {
           "population",
           "translation",
           "googleMaps",
+          "area",
         ],
         where: {
           name: {
@@ -36,6 +37,7 @@ module.exports = {
         "population",
         "translation",
         "googleMaps",
+        "area",
       ],
       include: {
         model: Activity,

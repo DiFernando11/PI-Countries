@@ -4,6 +4,7 @@ import {
   getAllCountries,
   searchCountries,
   setStateCountry,
+  statePage,
 } from "../../redux/actions";
 import "./index.css";
 
@@ -19,6 +20,7 @@ function SearchBar() {
     e.preventDefault();
     setCountries(e.target.value);
     dispatch(searchCountries(country));
+    dispatch(statePage(1));
   };
   const handleResetSearch = () => {
     dispatch(setStateCountry("All"));
